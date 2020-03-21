@@ -16,18 +16,19 @@ export default new Router({
 
     {
       path: '/',
-      name: '导航1',
+      name: '学生信息',
+      show:true,
       component: Index,
       redirect:"/pageOne",
       children: [
       {
         path: '/pageOne',
-        name: '页面一',
+        name: '查询学生信息',
         component: PageOne
       },
       {
         path: '/pageTwo',
-        name: '页面二',
+        name: '增加学生信息',
         component: PageTwo
       }
       ]
@@ -36,6 +37,7 @@ export default new Router({
     {
       path: '/',
       name: '导航2',
+      show:false,
       component: Index,
       children: [
         {
@@ -60,11 +62,13 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
+      show:false,
       component: Home
 },
     {
       path: '/student',
       name: 'student',
+      show:false,
       component: Student
     }
   ]
