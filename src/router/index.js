@@ -7,18 +7,45 @@ import PageOne from '../views/pageOne'
 import PageTwo from '../views/pageTwo'
 import PageThree from '../views/pageThree'
 import PageFour from '../views/pageFour'
-import Index from '../views/index'
+import index from '../views/index'
 
+
+import Index from '../pages/Index'
+import Login from '../pages/login/Login'
+import Register from  '../pages/login/Register'
+import NotFound from '../pages/404'
+import store from '../store'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
+  mode:"history",
   routes: [
-
     {
       path: '/',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: Index
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register
+    },
+    {
+      path: '*',
+      name: '/404',
+      component: NotFound
+    },
+
+    {
+      path: '/student',
       name: '学生信息',
       show:true,
-      component: Index,
+      component: index,
       redirect:"/pageOne",
       children: [
       {
@@ -35,10 +62,10 @@ export default new Router({
     },
 
     {
-      path: '/',
+      path: '/student',
       name: '导航2',
       show:false,
-      component: Index,
+      component: index,
       children: [
         {
           path: '/pageThree',
@@ -51,25 +78,55 @@ export default new Router({
           component: PageFour
         }
       ]
-    },
-
-
-
-
-
-
-
-    {
-      path: '/home',
-      name: 'home',
-      show:false,
-      component: Home
-},
-    {
-      path: '/student',
-      name: 'student',
-      show:false,
-      component: Student
     }
+
+
   ]
 })
+
+// 页面刷新时，重新赋值token
+/*if (sessionStorage.getItem('token')) {
+  store.commit('set_token', sessionStorage.getItem('token'))
+}*/
+
+/*
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(r => r.meta.requireAuth)) {           //这里的requireAuth为路由中定义的 meta:{requireAuth:true}，意思为：该路由添加该字段，表示进入该路由需要登陆的
+    if (store.state.token) {
+      next();
+    }
+    else {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  }
+  else {
+    next();
+  }
+})*/
+
+/*路由守卫   根据登录获得token*/
+router.beforeEach((to,from,next) =>{
+  console.log("进入拦截方法")
+  const isLogin = localStorage.getItem("eleToken") ? true :false ;
+  const login = sessionStorage.getItem("eleToken")? true :false ;
+  const  log = window.sessionStorage.getItem("eleToken")? true :false ;
+  console.log(login+'isLogin='+login)
+  if(to.path ==="/" || to.path ==="/register"){
+    console.log("path=='/'||path=='/register'")
+    next();
+  }else{
+    console.log("进入跳转")
+    next();
+   // login ? next() :next("/") ;  /*真跳转  假注册*/
+  }
+})
+;
+export default router;
+
+
+
+
+

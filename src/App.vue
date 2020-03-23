@@ -34,51 +34,40 @@
   </div>
 </template>
 
-<style>
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-  }
-
-  .el-aside {
-    color: #333;
-  }
-</style>
-
 <script>
+  import jwt from 'jwt-decode';
   export default {
-    data() {
-      const item = {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      };
-      return {
-        tableData: Array(20).fill(item)
+    name: "App",
+    comments:{},
+    created(){   /*在根组件进行判断，否则刷新就没了*/
+      if (localStorage.eleToken){
+        const decoded = jwt(localStorage.eleToken);
+        /*存储至vuex*/
+        this.$store.dispatch("setAuthenticated",!this.isEmpty(decoded))
+        this.$store.dispatch("setUser",decoded)
+      }
+    },
+    methods: {
+      isEmpty(value){
+        return(
+          value ===undefined || value ===null ||
+          (typeof  value === "object" && Object.keys(value).length ===0) ||
+          (typeof value ==="string" && value.trim().length ===0)
+        );
       }
     }
   };
 </script>
-<!--
 
-<script>
-export default {
-  name: 'App'
-}
-</script>
+
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-  #nav{
-    padding: 30px;
+  #app {
+    font-family: ‘Avenir‘, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
   }
 </style>
--->
