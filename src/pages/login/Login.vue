@@ -1,5 +1,5 @@
 <template>
-<div >
+
 
   <!--<el-form  label-position="left":inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
@@ -17,7 +17,10 @@
       <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form-item>
   </el-form>-->
-  <div style="position:relative;left:50%;top:80px; width:25%;height:50%" >
+
+
+  <div class="backgroud">
+      <div style="position:relative;left:60%;top:160px; width:25%;height:50%" >
   <el-form label-position="right" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"  class="demo-ruleForm" >
     <el-form-item label="用户名" prop="username" >
       <!--<el-col :span="10">-->
@@ -36,16 +39,14 @@
         <el-radio label="教师"></el-radio>
       </el-radio-group>
     </el-form-item>
-   <!-- <el-form-item label="年龄" prop="age">
-      <el-input v-model.number="ruleForm.age"></el-input>
-    </el-form-item>-->
     <el-form-item>
       <el-button type="primary" @click="login('ruleForm')">提交</el-button>
       <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form-item>
   </el-form>
   </div>
-</div>
+  </div>
+
 </template>
 
 <script>
@@ -55,7 +56,7 @@
 
       data() {
         return {
-
+          url: '../src/picture/login.jpg',
           ruleForm: {
             username: '',
             password: '',
@@ -80,39 +81,35 @@
 
       methods: {
         login (LoginForm) {
-          console.log(this.ruleForm)
           this.$refs[LoginForm].validate( valid =>{
             if(valid){
-
               this.$axios.post('http://localhost:8181/login',this.ruleForm).then( res =>{
-              /*this.$axios.post('http://localhost:8181/student/selectById/1').then( res =>{*/
                 //登陆成功  使用token
-                console.log(res)
-                if(res.data.msg!=null){//登录有误，展示错误信息
+                //console.log(res)
+                if(res.data.msg!=null&&res.data.msg!=""){//登录有误，展示错误信息
                   this.loading = false
                   // this.loginBtn = "登录"
                   console.log(res.data.msg)
                   this.$message.error(res.data.msg)
                 }
                 else{//成功登录，存储信息
+                  sessionStorage.clear()
+                  localStorage.clear()
+
                   const token = res.data.token;
-                  console.log(token)
-                  // console.log(token);
+                  //存储用户信息
+                  var user = res.data.user;
+                  sessionStorage.setItem("user",JSON.stringify(user))
                   /*存储到ls*/
                   localStorage.setItem('eleToken',token);
-                  console.log("存储到ls成功")
                   /*解析token中的信息*/
                   const decoded = jwt(token);
-                  console.log("解析token成功")
                   /*存储至vuex*/
-                  //this.$store.commit('set_token', decoded["Authentication-Token"]);
                   window.sessionStorage.setItem("eleToken",decoded)
-                  console.log("存储至sessionStorage成功")
                   /*跳转*/
-                  console.log('decoded:'+decoded)
                   if(decoded){
                     //登录之后跳转到首页
-                    this.$router.push('/student');
+                    this.$router.push('/index');
                   }else{
                     window.location.reload()
                   }
@@ -137,5 +134,22 @@
 </script>
 
 <style scoped>
-
+  .backgroud{
+    background-image: url("login2.jpg");
+    position:fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    min-width: 1000px;
+    z-index:-10;
+    zoom: 1;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-position: center 0;
+    z-index: -1;
+  }
 </style>

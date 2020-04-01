@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="详情页面">
+    </el-page-header>
     <el-table
       :data="tableData"
       border
@@ -64,7 +66,7 @@
     </el-pagination>
 
   </div>
-  </template>
+</template>
 
 <script>
   export default {
@@ -110,9 +112,9 @@
         var user = JSON.parse(sessionStorage.getItem("user"))
         console.log("跳转后页面获取用户:"+user.username)
         console.log(resp)
-       _this.tableData = resp.data.data
-       _this.pageSize = resp.data.size
-       _this.total = resp.data.totalElement
+        _this.tableData = resp.data.data
+        _this.pageSize = resp.data.size
+        _this.total = resp.data.totalElement
       })
     },
     data() {
