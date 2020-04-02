@@ -1,5 +1,12 @@
 <template>
-  <el-table
+  <div class="el-main-demo">
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item :to="{ path: '' }">请假申请</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="">申请进度</a></el-breadcrumb-item>
+
+    </el-breadcrumb>
+    <div class="el-main-table">
+    <el-table
     :data="tableData"
     style="width: 100%">
     <el-table-column
@@ -34,8 +41,14 @@
       label="创建时间">
     </el-table-column>
   </el-table>
-</template>
 
+    <el-progress v-if="tableData.length!=0" :percentage="50" aria-valuetext="审核中"></el-progress>
+    </div>
+  </div>
+</template>
+<style>
+  @import "../../style/el-main-demo.css";
+</style>
 <script>
   import {formatDate} from '../../js/date.js';
   export default {
@@ -76,7 +89,9 @@
       }
     },
     methods: {
-
+      /*format(percentage) {
+        return percentage === 100 ? '满' : `${percentage}%`;
+      }*/
     }
   }
 </script>

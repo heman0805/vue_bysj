@@ -10,12 +10,13 @@ import PageFour from '../views/pageFour'
 import index from '../views/index'*/
 
 
-import Index from '../pages/Index'
+import Student from '../pages/student'
+import Teacher from '../pages/teacher'
 import Login from '../pages/login/Login'
 import HolidayTasks from '../pages/holiday/HolidayTasks'
 import Holiday from '../pages/holiday/Holiday'
 import RunHoliday from '../pages/holiday/RunHoliday'
-import test from '../pages/holiday/test'
+import HolidayHistory from '../pages/holiday/HolidayHistory'
 
 import Register from  '../pages/login/Register'
 import NotFound from '../pages/404'
@@ -28,41 +29,82 @@ const router = new Router({
     {
       path: '/',
       name: 'login',
+      show:false,
       component: Login
     },
     {
-      path: '/index',
-      name: '请假',
-      show:true,
+      path: '/student',
+      name: '请假申请',
+      show:'学生',
 
-      component: Index,
-      redirect:"/holiday",
+      component: Student,
+      redirect:"/student/holiday",
       children: [
         {
-          path: '/holiday',
-          name: '请假申请',
-          show:'',
+          path: '/student/holiday',
+          name: '填写申请',
           component : Holiday
         }
         , {
-          path: '/runHoliday',
-          name: '请假进度',
-          show:'',
+          path: '/student/runHoliday',
+          name: '申请进度',
           component : RunHoliday
         }
-        ,{
-          path: '/holidayTasks',
-          show:'teacher',
+        , {
+          path: '/student/holidayHistory',
+          name: '申请记录',
+          component : HolidayHistory
+        }
+      ]
+    },
+    {
+      path: '/teacher',
+      name: '请假申请',
+      show:'教师',
+
+      component: Teacher,
+      redirect:"/teacher/holiday",
+      children: [
+        {
+          path: '/teacher/holiday',
+          name: '填写申请',
+          component : Holiday
+        }
+        , {
+          path: '/teacher/runHoliday',
+          name: '申请进度',
+          component : RunHoliday
+        }
+        , {
+          path: '/teacher/holidayHistory',
+          name: '申请记录',
+          component : HolidayHistory
+        }
+        /*,{
+          path: '/teacher/holidayTasks',
           name: '待办任务',
           component: HolidayTasks
-        }
-        ,{
-          path:'/test',
-          name:'test',
-          component:test
+        }*/
+
+      ]
+    },
+    {
+      path: '/taks',
+      name: '待办任务',
+      show: '教师',
+
+      component: Teacher,
+      //redirect: "/teacher/holidayTasks",
+      children: [
+        {
+          path: '/teacher/holidayTasks',
+          name: '请假审批',
+          component: HolidayTasks
         }
       ]
     }
+
+
     /*{
       path: '/index',
       name: '请假',

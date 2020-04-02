@@ -27,9 +27,9 @@
       <el-input v-model="ruleForm.username" ></el-input>
       <!--</el-col>-->
     </el-form-item>
-    <el-form-item label="密码" prop="password">
+    <el-form-item label="密码" prop="password" >
      <!-- <el-col :span="10">-->
-      <el-input v-model="ruleForm.password"></el-input>
+      <el-input type="password" v-model="ruleForm.password"></el-input>
       <!--</el-col>-->
     </el-form-item>
     <el-form-item label="角色">
@@ -56,7 +56,6 @@
 
       data() {
         return {
-          url: '../src/picture/login.jpg',
           ruleForm: {
             username: '',
             password: '',
@@ -109,7 +108,10 @@
                   /*跳转*/
                   if(decoded){
                     //登录之后跳转到首页
-                    this.$router.push('/index');
+                    if(user.role=="教师")
+                      this.$router.push('/teacher/holiday');
+                    else
+                      this.$router.push('/student/holiday');
                   }else{
                     window.location.reload()
                   }
@@ -135,7 +137,7 @@
 
 <style scoped>
   .backgroud{
-    background-image: url("login2.jpg");
+    background-image: url("../../picture/login.png");
     position:fixed;
     top: 0;
     left: 0;

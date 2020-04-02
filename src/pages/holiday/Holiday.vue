@@ -1,12 +1,21 @@
 <template>
-  <div>
-    <div>
-      <el-form   ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="请假天数" prop="days">
+  <div class="el-main-demo">
+
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '' }">请假申请</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="">填写申请</a></el-breadcrumb-item>
+
+      </el-breadcrumb>
+
+    <div class="el-main-form">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+
+       <!-- <el-form-item label="请假天数" prop="days">
           <el-col :span="5">
             <el-input v-model="form.days"></el-input>
           </el-col>
-        </el-form-item>
+        </el-form-item>-->
+
         <el-form-item label="请假类型" prop="vacationType">
           <el-col :span="5">
             <el-select v-model="form.vacationType" placeholder="请选择请假类型">
@@ -33,20 +42,29 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submit('form')">提交申请</el-button>
-          <el-button>取消</el-button>
+          <el-button  :plain="true" type="primary" round @click="submit('form')">提交申请</el-button>
+          <!--<el-button>取消</el-button>-->
         </el-form-item>
       </el-form>
-          </div>
+    </div>
   </div>
 </template>
+<style>
+@import "../../style/el-main-demo.css";
+  /*.el-main-demo{
+    padding-top: 52px;
+  }*/
+  /*.el-main-form{
+    padding-top: 52px;
+  }*/
+</style>
 <script>
   import {formatDate} from '../../js/date.js';
   export default {
     data() {
       return {
         form: {
-          days: '',
+         // days: '',
           vacationType: '',
           beginTime: '',
           endTime: '',
@@ -54,10 +72,10 @@
         }
         ,
         rules: {
-          days: [
+         /* days: [
             {required: true, message: '请假天数不能为空', trigger: 'blur'},
             // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
+          ],*/
           vacationType: [
             {required: true, message: '请假类型不能为空', trigger: 'blur'},
             // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
@@ -75,21 +93,24 @@
     },
     methods: {
       submit(form) {
+        var _this = this
         var data ={};
         let beginTime = new Date(this.form.beginTime);
         let endTime = new Date(this.form.endTime);
 
         this.form.beginTime = formatDate(beginTime, 'yyyy-MM-dd hh:mm:ss')
         this.form.endTime = formatDate(endTime, 'yyyy-MM-dd hh:mm:ss')
-        console.log("转换后开始时间："+this.form.beginTime);
-        console.log("转换后结束时间："+this.form.endTime);
+        //console.log("转换后开始时间："+this.form.beginTime);
+        //console.log("转换后结束时间："+this.form.endTime);
 
         data.form = this.form
         data.user = JSON.parse(sessionStorage.getItem("user"))
-        console.log("请假用户信息："+data.user)
+        //console.log("请假用户信息："+data.user)
         this.$axios.post('http://localhost:8181/user/holiday/insert',data).then(function (resp) {
           //console.log(this.map.get("form"))
-          this.$message.success("请假单填写成功")
+          console.log("请假单填写成功")
+          _this.$message('请假单填写成功')
+          _this.$refs[form].resetFields()
         })
 
       }
