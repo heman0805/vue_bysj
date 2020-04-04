@@ -20,7 +20,7 @@
       </el-header>
 
       <el-container  style=" height:100%; border: 1px solid #eee" >
-        <el-aside class ="aside" width="250px" style="height: 100%" ><!-- style="background-color: #4F9E66"-->
+        <el-aside class ="aside" width="200px" style="height: 100%" ><!-- style="background-color: #4F9E66"-->
           <el-menu class ="aside" router :default-openeds="['0']">
             <el-submenu class ="aside-submenu" v-for="(item,index) in $router.options.routes" :index="index+''" v-if="item.show==role">
               <template slot="title"><i class="el-icon-s-cooperation"></i>{{item.name}}</template>
