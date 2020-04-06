@@ -43,8 +43,8 @@
       if (localStorage.eleToken){
         const decoded = jwt(localStorage.eleToken);
         /*存储至vuex*/
-        this.$store.dispatch("setAuthenticated",!this.isEmpty(decoded))
-        this.$store.dispatch("setUser",decoded)
+       // this.$store.dispatch("setAuthenticated",!this.isEmpty(decoded))
+       // this.$store.dispatch("setUser",decoded)
       }
     },
     methods: {

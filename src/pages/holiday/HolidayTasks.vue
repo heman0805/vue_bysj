@@ -19,7 +19,7 @@
           label="任务ID">
         </el-table-column>
         <el-table-column
-          prop="userName"
+          prop="name"
           label="请假人">
         </el-table-column>
         <el-table-column
@@ -34,14 +34,6 @@
           prop="profession"
           label="专业">
         </el-table-column>
-        <!--<el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
-          <template slot-scope="scope">
-            <el-button @click="edit(scope.row)" type="text" size="small">查看</el-button>
-          </template>
-        </el-table-column>-->
 
         <!--审批部分-->
         <el-table-column
@@ -49,7 +41,6 @@
           label="审批"
           width="100" :resizable='false'>
           <template slot-scope="scope">
-           <!-- <el-button type="text" @click="process(scope.row)">审批</el-button>-->
             <el-link type="primary" @click="process(scope.row)">审批<i class="el-icon-view el-icon--right"></i> </el-link>
           </template>
         </el-table-column>
@@ -60,14 +51,20 @@
         <el-form :model="form" ref="form">
           <el-form-item label="请假人" :label-width="formLabelWidth">
             <el-col :span="15">
-            <el-input v-model="form.userName" disabled="disabled"></el-input>
+            <el-input v-model="form.name" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item label="班级" :label-width="formLabelWidth">
+          <el-form-item label="专业" :label-width="formLabelWidth">
+            <el-col :span="15">
+              <el-input v-model="form.profession" disabled="disabled"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item  label="班级" :label-width="formLabelWidth" v-if="role=='学生'">
             <el-col :span="15">
               <el-input v-model="form.class_" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
+
           <el-form-item label="请假天数" :label-width="formLabelWidth">
             <el-col :span="15">
             <el-input v-model="form.days" disabled="disabled"></el-input>
@@ -76,6 +73,11 @@
           <el-form-item label="请假类型" :label-width="formLabelWidth">
             <el-col :span="15">
               <el-input v-model="form.vacationType" disabled="disabled"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="请假理由" :label-width="formLabelWidth">
+            <el-col :span="20" >
+              <el-input type="textarea" v-model="form.reason" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
           <el-form-item label="请假时间" prop="time">
@@ -87,19 +89,8 @@
               <el-date-picker type="datetime" placeholder="结束时间" v-model="form.endTime" style="width: 100%;" disabled="disabled"></el-date-picker>
             </el-col>
           </el-form-item>
-          <el-form-item label="请假理由" :label-width="formLabelWidth">
-            <el-col :span="20" >
-            <el-input type="textarea" v-model="form.reason" disabled="disabled"></el-input>
-            </el-col>
-          </el-form-item>
 
-          <!--<el-form-item label="审批结果">
-            <el-radio-group v-model="form.checkResult">
-              <el-radio label="通过"></el-radio>
-              <el-radio label="拒绝"></el-radio>
-            </el-radio-group>
-          </el-form-item>
-    -->
+
           <el-form-item label="审批结果">
             <el-radio-group v-model="form.checkResult" size="mini">
               <el-radio label="通过" border>通过</el-radio>
@@ -141,16 +132,7 @@
       },*/
      holiday_check(form){
        this.dialogFormVisible = false
-       console.log(form)
-       console.log("从表单获得审批的流程ID为：",form.processInstanceId)
        var data = {}
-    /*   data.processinstanceid = form.processInstanceId
-       data.taskid = form.taskId
-       data.userid = form.userId
-       data.role = form.role
-       console.log("从表单获得审批的角色为：",form.role)
-       data.checkresult = form.checkResult
-       data.opinion = form.opinion*/
        data.data = form
        this.$axios.post('http://localhost:8181/user/holiday/holidayCheck',data).then( res =>{
         console.log(res.data)
@@ -162,7 +144,9 @@
         var _this = this
         var processInstanceId = row.processInstanceId
         this.$axios.get('http://localhost:8181/user/holiday/holidayTask/'+processInstanceId).then(function (resp){
+          console.log(resp.data)
           _this.form = resp.data
+          _this.role = resp.data.role
           _this.dialogFormVisible = true
         })
       }
@@ -182,7 +166,7 @@
         tableData: [{
           processInstanceId: '',
           taskId: '',
-          userName: '',
+          name: '',
           days:'',
           beginTime:'',
           endTime:'',
@@ -195,7 +179,8 @@
         }],
         dialogFormVisible: false,
         form: {
-          userName: 'test',
+          name: 'test',
+          profession:'',
           class_:'软件1604',
           days: '2',
           beginTime: '2020-3-31 22:23:21',
@@ -204,7 +189,8 @@
           checkResult:'',
           opinion: ''
         },
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        role:''
       };
 
     }
