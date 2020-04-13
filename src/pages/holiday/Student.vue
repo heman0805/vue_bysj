@@ -4,7 +4,7 @@
     </el-page-header>
     <el-table
       :data="tableData"
-      border
+      border :header-cell-style="{background:'#D5ECF8',color:'#606266'}"
       style="width: 100%">
       <el-table-column
         fixed

@@ -8,8 +8,12 @@
     <div class="el-main-table">
     <el-table
     :data="tableData"
+    border :header-cell-style="{background:'#D5ECF8',color:'#606266'}"
     style="width: 100%">
-    <el-table-column
+
+      <el-progress v-if="tableData.length!=0" :percentage="50" aria-valuetext="审核中"></el-progress>
+
+      <el-table-column
       prop="processInstanceId"
       label="流程实例ID"
       width="100">
@@ -41,8 +45,6 @@
       label="创建时间">
     </el-table-column>
   </el-table>
-
-    <el-progress v-if="tableData.length!=0" :percentage="50" aria-valuetext="审核中"></el-progress>
     </div>
   </div>
 </template>

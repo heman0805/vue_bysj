@@ -5,30 +5,20 @@
 
 
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '' }">请假申请</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="">学生请假记录</a></el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '' }">转专业申请</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="">申请结果</a></el-breadcrumb-item>
 
     </el-breadcrumb>
 
     <div class="el-main-demo">
       <el-form :inline="true" ref="form" :model="form"  label-width="80px">
 
-        <el-form-item label="专业" prop="profession">
+        <el-form-item label="申请结果" prop="result">
           <el-col :span="20">
-            <el-select v-model="form.profession" @change="change('form')" placeholder="请选择专业">
-              <el-option v-for="item in profession" :key="item" :label="item" :value="item"></el-option>
+            <el-select v-model="form.result" @change="change('form')" placeholder="请选择查询类型">
+              <el-select></el-select>
             </el-select>
           </el-col>
-        </el-form-item>
-
-        <el-form-item label="班级" prop="class_">
-          <el-col :span="20">
-            <el-select v-model="form.class_"  placeholder="请选择班级">
-              <el-option v-for="item in classes" :key="item" :label="item" :value="item"></el-option>
-            </el-select>
-          </el-col>
-        </el-form-item>
-        <el-form-item>
           <el-button  :plain="true" type="primary" round @click="submit('form')">查看</el-button>
         </el-form-item>
       </el-form>

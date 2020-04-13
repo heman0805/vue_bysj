@@ -2,7 +2,7 @@
   <div class="el-main-demo">
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '' }">待办任务</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="">请假审批</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a href="">转专业审批</a></el-breadcrumb-item>
 
     </el-breadcrumb>
     <div class="el-main-table">
@@ -21,19 +21,27 @@
         </el-table-column>
         <el-table-column
           prop="name"
-          label="请假人">
+          label="申请人">
         </el-table-column>
         <el-table-column
-          prop="days"
-          label="请假天数">
+          prop="currentProfession"
+          label="当前专业">
         </el-table-column>
         <el-table-column
-          prop="college"
-          label="学院">
+          prop="newCollege"
+          label="拟转向学院">
         </el-table-column>
         <el-table-column
-          prop="profession"
-          label="专业">
+          prop="newProfession"
+          label="拟转向专业">
+        </el-table-column>
+        <el-table-column
+          prop="gpa"
+          label="GPA">
+        </el-table-column>
+        <el-table-column
+          prop="rank"
+          label="专业排名">
         </el-table-column>
 
         <!--审批部分-->
@@ -54,18 +62,17 @@
         :total="total"
         @current-change="page">
       </el-pagination>
-
       <!-- Form -->
-      <el-dialog title="请假单审批" :visible.sync="dialogFormVisible">
+      <el-dialog title="转专业审批" :visible.sync="dialogFormVisible">
         <el-form :model="form" ref="form" label-width="100px">
-          <el-form-item label="请假人" :label-width="formLabelWidth">
+          <el-form-item label="申请人" :label-width="formLabelWidth">
             <el-col :span="15">
-            <el-input v-model="form.name" disabled="disabled"></el-input>
+              <el-input v-model="form.name" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item label="专业" :label-width="formLabelWidth">
+          <el-form-item label="拟转向专业" :label-width="formLabelWidth">
             <el-col :span="15">
-              <el-input v-model="form.profession" disabled="disabled"></el-input>
+              <el-input v-model="form.newProfession" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
           <el-form-item  label="班级" :label-width="formLabelWidth" v-if="role=='学生'">
@@ -74,35 +81,40 @@
             </el-col>
           </el-form-item>
 
-          <el-form-item label="请假天数" :label-width="formLabelWidth">
+          <el-form-item label="班内职位" :label-width="formLabelWidth">
             <el-col :span="15">
-            <el-input v-model="form.days" disabled="disabled"></el-input>
+              <el-input type="text" v-model="form.post" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item label="请假类型" :label-width="formLabelWidth">
+
+          <el-form-item label="gpa" :label-width="formLabelWidth">
             <el-col :span="15">
-              <el-input v-model="form.vacationType" disabled="disabled"></el-input>
+              <el-input v-model="form.gpa" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item label="请假理由" :label-width="formLabelWidth">
+          <el-form-item label="专业排名" :label-width="formLabelWidth">
+            <el-col :span="15">
+              <el-input v-model="form.rank" disabled="disabled"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="申请理由" :label-width="formLabelWidth">
             <el-col :span="20" >
               <el-input type="textarea" v-model="form.reason" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item label="请假时间" prop="time">
-            <el-col :span="8">
-              <el-date-picker type="datetime" placeholder="开始时间" v-model="form.beginTime" style="width: 100%;" disabled="disabled"></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2">-</el-col>
-            <el-col :span="8">
-              <el-date-picker type="datetime" placeholder="结束时间" v-model="form.endTime" style="width: 100%;" disabled="disabled"></el-date-picker>
+          <el-form-item label="参与比赛" :label-width="formLabelWidth">
+            <el-col :span="20" >
+              <el-input type="textarea" v-model="form.contest" disabled="disabled"></el-input>
             </el-col>
           </el-form-item>
-
-
+          <el-form-item label="参与社团及职位":label-width="formLabelWidth">
+            <el-col :span="20">
+              <el-input type="textarea" v-model="form.society" disabled="disabled"></el-input>
+            </el-col>
+          </el-form-item>
           <el-form-item label="审批结果">
             <el-radio-group v-model="form.checkResult" size="mini">
-                <el-radio label="通过" border>通过</el-radio>
+              <el-radio label="通过" border>通过</el-radio>
               <el-radio label="拒绝" border>拒绝</el-radio>
             </el-radio-group>
           </el-form-item>
@@ -112,9 +124,9 @@
               <el-input type="textarea" v-model="form.opinion"></el-input>
             </el-col>
           </el-form-item>
-         <!-- <el-form-item label="审批意见" :label-width="formLabelWidth">
-            <el-input v-model="form.opinion" ></el-input>
-          </el-form-item>-->
+          <!-- <el-form-item label="审批意见" :label-width="formLabelWidth">
+             <el-input v-model="form.opinion" ></el-input>
+           </el-form-item>-->
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button round @click="dialogFormVisible = false">取 消</el-button>
@@ -130,24 +142,22 @@
 <script>
   export default {
     methods:{
-     holiday_check(form){
-       console.log(form)
-       console.log(form)
-       this.dialogFormVisible = false
-       var data = {}
-       data.data = form
-       this.$axios.post('http://localhost:8181/user/holiday/holidayCheck',data).then( res =>{
-        console.log(res.data)
-         //刷新当前页面
-         window.location.reload()
-       })
-     },
+      holiday_check(form){
+        console.log(form)
+        this.dialogFormVisible = false
+        var data = {}
+        data.data = form
+        this.$axios.post('http://localhost:8181/user/major/majorCheck',data).then( res =>{
+          console.log(res.data)
+          //刷新当前页面
+          window.location.reload()
+        })
+      },
       process(row){
-
         var _this = this
         var processInstanceId = row.processInstanceId
-        this.$axios.get('http://localhost:8181/user/holiday/holidayTask/'+processInstanceId).then(function (resp){
-          console.log(resp.data)
+        this.$axios.get('http://localhost:8181/user/major/searchByProcessInstanceId/'+processInstanceId).then(function (resp){
+          //console.log(resp.data)
           _this.form = resp.data
           _this.role = resp.data.role
           _this.dialogFormVisible = true
@@ -157,7 +167,8 @@
         var _this = this
         const user = JSON.parse(sessionStorage.getItem("user"))
         var userId= user.tid
-        this.$axios.get('http://localhost:8181/user/holiday/teacherSearch/'+userId+"/"+currentPage+"/"+this.pageSize).then(function (resp){
+        this.$axios.get('http://localhost:8181/user/major/search/'+userId+"/"+currentPage+"/"+this.pageSize).then(function (resp){
+          console.log(resp)
           _this.tableData = resp.data.data
           _this.pageSize = resp.data.size
           _this.total = resp.data.totalElement
@@ -167,15 +178,16 @@
     created(){
       const _this = this
       const user = JSON.parse(sessionStorage.getItem("user"))
-
       var userId = user.tid
-
-      this.$axios.get('http://localhost:8181/user/holiday/teacherSearch/'+userId+"/0/"+this.pageSize).then(function (resp){
+      console.log("登录用户ID:",userId)
+      this.$axios.get('http://localhost:8181/user/major/search/'+userId+"/0/"+this.pageSize).then(function (resp){
+        console.log(resp)
         _this.tableData = resp.data.data
         _this.pageSize = resp.data.size
         _this.total = resp.data.totalElement
       })
     },
+
     data() {
       return {
         pageSize:10,
@@ -184,25 +196,23 @@
           processInstanceId: '',
           taskId: '',
           name: '',
-          days:'',
-          beginTime:'',
-          endTime:'',
-          createTime:'',
-          vacationType:'',
-          reason:'',
-          college:'',
-          profession:'',
-          class_:''
+          currentProfession:'',
+          newProfession:'',
+          newCollege:'',
+          gpa:'',
+          rank:''
         }],
         dialogFormVisible: false,
         form: {
           name: 'test',
-          profession:'',
+          newProfession:'',
           class_:'软件1604',
-          days: '2',
-          beginTime: '2020-3-31 22:23:21',
-          endTime: '2020-4-1 22:23:21',
-          reason: 'test test',
+          post:'',
+          society:'',
+          gpa: '2',
+          rank: '',
+          reason: '',
+          contest: '',
           checkResult:'',
           opinion: ''
         },

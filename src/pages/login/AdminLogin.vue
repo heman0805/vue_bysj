@@ -88,11 +88,10 @@
                 /*跳转*/
                 if(decoded){
                   //登录之后跳转到首页
-                  this.$router.push('/admin');
-                 /* if(user.role=="教师")
-                    this.$router.push('/teacher/holiday');
-                  else
-                    this.$router.push('/student/holiday');*/
+                  if(user.role=="管理")
+                    this.$router.push('/admin');
+                  else if(user.role=="办事处")
+                    this.$router.push('/office');
                 }else{
                   window.location.reload()
                 }

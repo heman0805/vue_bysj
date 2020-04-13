@@ -13,6 +13,7 @@ import index from '../views/index'*/
 import Student from '../pages/student'
 import Teacher from '../pages/teacher'
 import Admin from '../pages/admin'
+import Office from '../pages/office'
 
 import Login from '../pages/login/Login'
 import AdminLogin from '../pages/login/AdminLogin'
@@ -23,6 +24,11 @@ import RunHoliday from '../pages/holiday/RunHoliday'
 import HolidayHistory from '../pages/holiday/HolidayHistory'
 import SeacherHoliday from '../pages/holiday/SeacherHoliday'
 import SeacherTeacherHoliday from '../pages/holiday/SeacherTeacherHoliday'
+
+import Major from '../pages/major/major'
+import MajorTask from '../pages/major/majorTask'
+import RunMajor from '../pages/major/RunMajor'
+import SetClass from '../pages/major/SetClass'
 
 import Register from  '../pages/login/Register'
 import NotFound from '../pages/404'
@@ -73,6 +79,27 @@ const router = new Router({
           name: '申请记录',
           component : HolidayHistory
         }
+      ]
+    },
+    {
+      path: '/student',
+      name: '转专业申请',
+      show:'学生',
+
+      component: Student,
+      redirect:"/student/holiday",
+      children: [
+        {
+          path: '/student/major',
+          name: '填写申请',
+          component : Major
+        },
+        {
+          path: '/student/runMajor',
+          name: '申请进度',
+          component : RunMajor
+        }
+
       ]
     },
     /**
@@ -157,7 +184,15 @@ const router = new Router({
           name: '教师请假记录',
           show: 'Group_Dean',//院长
           component: SeacherTeacherHoliday
-        }
+        },
+        //转专业申请记录
+        {
+          path: '/seacherTeacherHoliday',
+          name: '转专业申请记录',
+          show: 'Group_Dean',//院长
+          component: SeacherTeacherHoliday
+        },
+
       ]
     }
     ,{
@@ -189,7 +224,85 @@ const router = new Router({
           name: '请假审批',
           show: 'Group_Dean',//院长
           component: HolidayTasks
+        },
+        {
+          path: '/major/seacherTask',
+          name: '转专业审批',
+          show: 'Group_Dean',//院长
+          component: MajorTask
         }
+      ]
+    },
+    /**
+     * 办事处界面
+     */
+    {
+      path: '/office',
+      name: '查看',
+      show: '办事处',
+      component: Office,
+      redirect: '/major/seacherTask',
+      children: [
+        //转专业审s批
+        {
+          path: '/major/seacherTask',
+          name: '转专业审批',
+          show: 'Group_AcademicAffairs',//学院教务办
+          component: MajorTask
+        }
+        ]
+
+    },
+    {
+      path: '/office',
+      name: '待办任务',
+      show: '办事处',
+      component: Office,
+      redirect:'/major/seacherTask',
+      children: [
+        //转专业审s批
+        {
+          path: '/major/seacherTask',
+          name: '转专业申请',
+          show: 'Group_AcademicAffairs',//学院教务办
+          component: MajorTask
+        },
+        {
+          path: '/major/seacherTask',
+          name: '转专业申请',
+          show: 'Group_AdministrationOffice',//学校教务办
+          component: MajorTask
+        },
+        //设置新班级
+        {
+          path: '/major/setClass',
+          name: '班级分配',
+          show: 'Group_AcademicAffairs',//学院教务办
+          component: SetClass
+        },
+        /*{
+          path: '/major/seacherTask',
+          name: '转专业审批',
+          show: 'Group_AdministrationOffice',//学校教务办
+          component: MajorTask,
+          children: [
+            //转专业审s批
+            {
+              path: '/major/seacherTask',
+              name: '转专业审批1',
+              show: 'Group_AdministrationOffice',//学校教务办
+              component: MajorTask
+            },
+            //转专业审s批
+            {
+              path: '/major/seacherTask',
+              name: '转专业审批2',
+              show: 'Group_AdministrationOffice',//学校教务办
+              component: MajorTask
+            },
+
+          ]
+        }*/
       ]
     },
 

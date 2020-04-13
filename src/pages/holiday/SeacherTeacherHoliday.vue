@@ -2,13 +2,15 @@
   <div class="el-main-demo">
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '' }">请假申请</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="">申请记录</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a href="">教师请假记录</a></el-breadcrumb-item>
 
     </el-breadcrumb>
 
       <div class="el-main-table">
       <el-table
         :data="tableData"
+        itemscope
+        border :header-cell-style="{background:'#D5ECF8',color:'#606266'}"
         stripe
         style="width: 100%">
         <el-table-column
@@ -64,6 +66,13 @@
           width="80px">
         </el-table-column>-->
       </el-table>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :pageSize="pageSize"
+          :total="total"
+          @current-change="page">
+        </el-pagination>
     </div>
   </div>
 </template>
@@ -74,74 +83,73 @@
   import {formatDate} from '../../js/date.js';
   export default {
     methods:{
-
-      /*change(form){
+      page(currentPage){
+        const user = JSON.parse(sessionStorage.getItem("user"))
+        var position = user.position
+        var college = user.college
+        if(position=='系主任'){
+          var profession = user.profession
+          //默认查找该专业所有请假信息
+          this.selectByProfession(profession,currentPage)
+        }
+        if(position=='院长'||position=='书记'){
+          //默认查找该专业所有请假信息
+          this.selectByCollege(college,currentPage)
+        }
+      },
+      selectByProfession(profession,currentPage){
+        console.log("查找教师请假信息")
         var _this = this
-        var profession = this.form.profession
-        console.log(profession)
-        //查找该专业所有班级
-        this.$axios.get('http://localhost:8181/user/holiday/classes/' + profession).then(function (resp) {
+        this.$axios.get('http://localhost:8181/user/holiday/searchTeacherHoliday/'+"profession/"+profession+"/"+currentPage+"/"+this.pageSize).then(function (resp){
           console.log(resp)
-          _this.classes = resp.data
+          for(let i = 0;i<resp.data.data.length;i++){
+            let begintime = new Date(resp.data.data[i].beginTime)
+            let endtime = new Date(resp.data.data[i].endTime)
+            resp.data.data[i].beginTime = formatDate(begintime, 'yyyy-MM-dd hh:mm:ss')
+            resp.data.data[i].endTime = formatDate(endtime, 'yyyy-MM-dd hh:mm:ss')
+          }
+          _this.tableData = resp.data.data
+          _this.pageSize = resp.data.size
+          _this.total = resp.data.totalElement
         })
       },
-      submit(form){
-
-        const _this = this
-        var class_ = this.form.class_
-        console.log("专业",this.form.profession)
-        const user = JSON.parse(sessionStorage.getItem("user"))
-        var tid = user.tid
-        this.$axios.get('http://localhost:8181/user/holiday/searchHoliday/'+tid+"/class/"+class_).then(function (resp){
-          for(let i = 0;i<resp.data.length;i++){
-            let begintime = new Date(resp.data[i].beginTime)
-            let endtime = new Date(resp.data[i].endTime)
-            resp.data[i].beginTime = formatDate(begintime, 'yyyy-MM-dd hh:mm:ss')
-            resp.data[i].endTime = formatDate(endtime, 'yyyy-MM-dd hh:mm:ss')
+      selectByCollege(college,currentPage){
+        console.log("查找教师请假信息")
+        var _this = this
+        this.$axios.get('http://localhost:8181/user/holiday/searchTeacherHoliday/'+"college/"+college+"/"+currentPage+"/"+this.pageSize).then(function (resp){
+          console.log(resp)
+          for(let i = 0;i<resp.data.data.length;i++){
+            let begintime = new Date(resp.data.data[i].beginTime)
+            let endtime = new Date(resp.data.data[i].endTime)
+            resp.data.data[i].beginTime = formatDate(begintime, 'yyyy-MM-dd hh:mm:ss')
+            resp.data.data[i].endTime = formatDate(endtime, 'yyyy-MM-dd hh:mm:ss')
           }
-          _this.tableData = resp.data
+          _this.tableData = resp.data.data
+          _this.pageSize = resp.data.size
+          _this.total = resp.data.totalElement
         })
-      }*/
+      }
     },
     created(){
-      const _this = this
       const user = JSON.parse(sessionStorage.getItem("user"))
       var position = user.position
       if(position=='系主任'){
+        console.log("系主任查找教师请假记录")
         var profession = user.profession
         //默认查找该专业所有请假信息
-        this.$axios.get('http://localhost:8181/user/holiday/searchTeacherHoliday/'+"profession/"+profession).then(function (resp){
-          console.log(resp)
-          for(let i = 0;i<resp.data.length;i++){
-            let begintime = new Date(resp.data[i].beginTime)
-            let endtime = new Date(resp.data[i].endTime)
-            resp.data[i].beginTime = formatDate(begintime, 'yyyy-MM-dd hh:mm:ss')
-            resp.data[i].endTime = formatDate(endtime, 'yyyy-MM-dd hh:mm:ss')
-          }
-          _this.tableData = resp.data
-        })
+        this.selectByProfession(profession,0)
       }
       if(position=='院长'||position=='书记'){
+        console.log("院长查找教师请假记录")
         var college = user.college
         //默认查找该专业所有请假信息
-        this.$axios.get('http://localhost:8181/user/holiday/searchTeacherHoliday/'+"college/"+college).then(function (resp){
-          console.log(resp)
-          for(let i = 0;i<resp.data.length;i++){
-            let begintime = new Date(resp.data[i].beginTime)
-            let endtime = new Date(resp.data[i].endTime)
-            resp.data[i].beginTime = formatDate(begintime, 'yyyy-MM-dd hh:mm:ss')
-            resp.data[i].endTime = formatDate(endtime, 'yyyy-MM-dd hh:mm:ss')
-          }
-          _this.tableData = resp.data
-        })
+        this.selectByCollege(college,0)
       }
-
-
-
-
     },
     data() {
       return {
+        pageSize:8,
+        total:8,
         tableData: [{
           name:'',
           profession:'',
