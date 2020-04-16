@@ -102,6 +102,7 @@
     methods: {
 
       submit(form) {
+        console.log(this.form)
         console.log("专业排名：",this.form.rank)
         var _this = this
         var data ={};

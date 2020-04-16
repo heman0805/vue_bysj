@@ -29,6 +29,7 @@ import Major from '../pages/major/major'
 import MajorTask from '../pages/major/majorTask'
 import RunMajor from '../pages/major/RunMajor'
 import SetClass from '../pages/major/SetClass'
+import Result from '../pages/major/Result'
 
 import Register from  '../pages/login/Register'
 import NotFound from '../pages/404'
@@ -243,12 +244,18 @@ const router = new Router({
       component: Office,
       redirect: '/major/seacherTask',
       children: [
-        //转专业审s批
+
         {
-          path: '/major/seacherTask',
-          name: '转专业审批',
+          path: '/major/result',
+          name: '转专业结果',
           show: 'Group_AcademicAffairs',//学院教务办
-          component: MajorTask
+          component: Result
+        },
+        {
+          path: '/major/result',
+          name: '转专业结果',
+          show: 'Group_AdministrationOffice',//学院教务办
+          component: Result
         }
         ]
 

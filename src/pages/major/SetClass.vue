@@ -5,8 +5,8 @@
 
 
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '' }">请假申请</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="">学生请假记录</a></el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '' }">待办任务</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="">班级分配</a></el-breadcrumb-item>
 
     </el-breadcrumb>
 
@@ -19,6 +19,10 @@
               <el-option v-for="item in profession" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-col>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button  :plain="true" type="primary" round @click="submit('form')">提交分班结果</el-button>
         </el-form-item>
 
       </el-form>
@@ -46,6 +50,11 @@
            >
         </el-table-column>
         <el-table-column
+          label="学院"
+          prop="newCollege"
+        >
+        </el-table-column>
+        <el-table-column
           label="专业"
           prop="newProfession"
            >
@@ -56,9 +65,9 @@
            >
         </el-table-column>
 
-        <el-table-column label="班级" prop="class_" >
+        <el-table-column label="班级" prop="newClass_" >
           <template scope="scope">
-            <el-select v-model="scope.row.class_" placeholder="请选择班级">
+            <el-select v-model="scope.row.newClass_" placeholder="请选择班级">
               <el-option v-for="(item,index) in classes" :key="item" :label="item" :value="item" />
             </el-select>
           </template>
@@ -92,61 +101,59 @@
         this.$axios.get('http://localhost:8181/user/holiday/classes/' + profession).then(function (resp) {
           _this.classes = resp.data
         })
-        this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession+"/0/10").then(function (resp) {
-          console.log(resp)
+        this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession+"/profession/0/10").then(function (resp) {
           _this.tableData = resp.data.data
         })
       },
       submit(form){
-
-       /* var class_ = this.form.class_
-        const user = JSON.parse(sessionStorage.getItem("user"))
-        var tid = user.tid
-        var profession = this.form.profession
-        if(!(class_==null)){
-          this.selectByClass_(tid,0,class_)
-        }
-        else if(!(profession==null)){
-          this.selectByProfession(tid,0,profession)
-        }*/
-
+        var _this = this
+        console.log(this.tableData)
+        this.$axios.post('http://localhost:8181/user/major/setClass',this.tableData).then(function (resp) {
+          _this.$message(resp)
+          window.location.reload()
+        })
       },
       page(currentPage){
-        /*const user = JSON.parse(sessionStorage.getItem("user"))
-        var tid = user.tid
-        if(!(this.form.class_==null)&&this.form.class_.length>1){
-          this.selectByClass_(tid,currentPage,this.form.class_)
+        var _this = this
+        const user = JSON.parse(sessionStorage.getItem("user"))
+        var college = user.college
+        if(this.form.profession!=null){
+          var profession = this.form.profession
+          this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession+"/profession/"+currentPage+"/"+this.pageSize).then(function (resp) {
+            _this.tableData = resp.data.data
+            _this.pageSize = resp.data.size
+            _this.total = resp.data.totalElement
+          })
         }
-        else if(!(this.form.profession==null)&&this.form.profession.length>1){
-          this.selectByProfession(tid,currentPage,this.form.profession)
-        }else{
-          const user = JSON.parse(sessionStorage.getItem("user"))
-          var tid = user.tid
-          var college = user.college
-          if(user.position=='辅导员'||user.position=='系主任') {
-            this.selectByProfession(tid,currentPage,this.form.profession)
-          }else if(user.position=='书记'||user.position=='院长') {
-            this.selectByCollege(tid,currentPage,college)
-          }
-        }*/
-      }
+        else{
+          this.$axios.get('http://localhost:8181/user/major/getByProfession/' + college+"/college/"+currentPage+"/"+this.pageSize).then(function (resp) {
+            _this.tableData = resp.data.data
+            _this.pageSize = resp.data.size
+            _this.total = resp.data.totalElement
+          })
+        }
+
+
+
+        }
     },
     created(){
       const _this = this
       const user = JSON.parse(sessionStorage.getItem("user"))
       var college = user.college
-      var profession = '通信工程'
+      var profession
 
       this.$axios.get('http://localhost:8181/user/holiday/profession/'+college).then(function (resp) {
-        console.log(resp)
         _this.profession = resp.data
+        profession = resp.data[0]
       })
-      this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession+"/0/10").then(function (resp) {
-        console.log(resp)
+      this.$axios.get('http://localhost:8181/user/major/getByProfession/' + college+"/college/0/10").then(function (resp) {
         for (let i=0;i<resp.data.data.length;i++){
           _this.index = i
         }
         _this.tableData = resp.data.data
+        _this.pageSize = resp.data.size
+        _this.total = resp.data.totalElement
       })
 
 
@@ -169,9 +176,10 @@
           name:'',
           sex:'',
           number:'',
+          newCollege:'',
           profession:'',
           gpa:'',
-          class_:[
+          newClass_:[
             {value:'软件1604',label:'1604'},
             {value:'软件1603',label:'1603'}
           ],
