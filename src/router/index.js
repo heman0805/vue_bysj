@@ -1,14 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-/*import HelloWorld from '@/components/HelloWorld'
-import Home from '../views/Home'
-import Student from '../views/Student'
-import PageOne from '../views/pageOne'
-import PageTwo from '../views/pageTwo'
-import PageThree from '../views/pageThree'
-import PageFour from '../views/pageFour'
-import index from '../views/index'*/
-
 
 import Student from '../pages/student'
 import Teacher from '../pages/teacher'
@@ -30,6 +21,10 @@ import MajorTask from '../pages/major/majorTask'
 import RunMajor from '../pages/major/RunMajor'
 import SetClass from '../pages/major/SetClass'
 import Result from '../pages/major/Result'
+
+import Project from '../pages/project/Project'
+import ProjectTask from '../pages/project/projectTask'
+import SearchProject from '../pages/project/SearchProject'
 
 import Register from  '../pages/login/Register'
 import NotFound from '../pages/404'
@@ -103,6 +98,20 @@ const router = new Router({
 
       ]
     },
+    {
+      path: '/student',
+      name: '项目立项申请',
+      show:'学生',
+      component: Student,
+      redirect:"/student/project",
+      children:[
+        {
+          path: '/student/project',
+          name: '立项申请',
+          component : Project
+        }
+      ]
+    },
     /**
      * 教师页内容
      */
@@ -132,7 +141,21 @@ const router = new Router({
       ]
     },
     {
-      path: '/taks',
+      path: '/teacher',
+      name: '立项申请',
+      show:'教师',
+      component: Teacher,
+      redirect:"/teacher/project",
+      children:[
+        {
+          path: '/teacher/project',
+          name: '立项申请',
+          component : Project
+        }
+      ]
+    },
+    {
+      path: '/tasks',
       name: '待办任务',
       show: '教师',
       component: Teacher,
@@ -141,7 +164,6 @@ const router = new Router({
     /**
      * 审批人员页面
      */
-    //辅导员
     ,{
       path: '/admin',
       name: '查看',
@@ -193,7 +215,25 @@ const router = new Router({
           show: 'Group_Dean',//院长
           component: SeacherTeacherHoliday
         },
-
+        //项目立项申请记录
+        {
+          path:'/searchProject',
+          name:'项目立项申请记录',
+          show:'Group_Instructor',//辅导员
+          component:SearchProject
+        },
+        {
+          path:'/searchProject',
+          name:'项目立项申请记录',
+          show:'Group_DepartmentDirector',//系主任
+          component:SearchProject
+        },
+        {
+          path:'/searchProject',
+          name:'项目立项申请记录',
+          show:'Group_ViceDean',//副院长
+          component:SearchProject
+        },
       ]
     }
     ,{
@@ -231,7 +271,27 @@ const router = new Router({
           name: '转专业审批',
           show: 'Group_Dean',//院长
           component: MajorTask
-        }
+        },
+
+        {
+          path: '/project/projectTask',
+          name: '项目申请审批',
+          show: 'Group_Instructor',//辅导员
+          component: ProjectTask
+        },
+        {
+          path: '/project/projectTask',
+          name: '项目申请审批',
+          show: 'Group_DepartmentDirector',//系主任
+          component: ProjectTask
+        },
+        {
+          path: '/project/projectTask',
+          name: '项目申请审批',
+          show: 'Group_ViceDean',//副院长
+          component: ProjectTask
+        },
+
       ]
     },
     /**
@@ -256,7 +316,19 @@ const router = new Router({
           name: '转专业结果',
           show: 'Group_AdministrationOffice',//学院教务办
           component: Result
-        }
+        },
+        {
+          path:'/searchProject',
+          name:'项目立项申请记录',
+          show:'Group_SciAndTech',//科技处
+          component:SearchProject
+        },
+        {
+          path:'/searchProject',
+          name:'项目立项申请记录',
+          show:'Group_Finance',//财务处
+          component:SearchProject
+        },
         ]
 
     },
@@ -287,29 +359,19 @@ const router = new Router({
           show: 'Group_AcademicAffairs',//学院教务办
           component: SetClass
         },
-        /*{
-          path: '/major/seacherTask',
-          name: '转专业审批',
-          show: 'Group_AdministrationOffice',//学校教务办
-          component: MajorTask,
-          children: [
-            //转专业审s批
-            {
-              path: '/major/seacherTask',
-              name: '转专业审批1',
-              show: 'Group_AdministrationOffice',//学校教务办
-              component: MajorTask
-            },
-            //转专业审s批
-            {
-              path: '/major/seacherTask',
-              name: '转专业审批2',
-              show: 'Group_AdministrationOffice',//学校教务办
-              component: MajorTask
-            },
-
-          ]
-        }*/
+        //项目申请审批
+        {
+          path: '/project/projectTask',
+          name: '项目申请审批',
+          show: 'Group_SciAndTech',//科技处
+          component: ProjectTask
+        },
+        {
+          path: '/project/projectTask',
+          name: '项目申请审批',
+          show: 'Group_Finance',//财务处
+          component: ProjectTask
+        }
       ]
     },
 
@@ -324,29 +386,6 @@ const router = new Router({
 
   ]
 })
-
-// 页面刷新时，重新赋值token
-/*if (sessionStorage.getItem('token')) {
-  store.commit('set_token', sessionStorage.getItem('token'))
-}*/
-
-/*
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(r => r.meta.requireAuth)) {           //这里的requireAuth为路由中定义的 meta:{requireAuth:true}，意思为：该路由添加该字段，表示进入该路由需要登陆的
-    if (store.state.token) {
-      next();
-    }
-    else {
-      next({
-        path: '/login',
-        query: {redirect: to.fullPath}
-      })
-    }
-  }
-  else {
-    next();
-  }
-})*/
 
 /*路由守卫   根据登录获得token*/
 router.beforeEach((to,from,next) =>{
