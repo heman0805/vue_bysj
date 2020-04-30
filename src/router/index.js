@@ -21,6 +21,7 @@ import MajorTask from '../pages/major/majorTask'
 import RunMajor from '../pages/major/RunMajor'
 import SetClass from '../pages/major/SetClass'
 import Result from '../pages/major/Result'
+import SearchMajor from '../pages/major/SeacherMajor'
 
 import Project from '../pages/project/Project'
 import ProjectTask from '../pages/project/projectTask'
@@ -34,6 +35,13 @@ Vue.use(Router)
 const router = new Router({
   mode:"history",
   routes: [
+    /*注册页面*/
+    {
+      path:'/register',
+      name:'register',
+      show:false,
+      component:Register
+    },
     /*审批人员登录*/
     {
       path: '/adminLogin',
@@ -210,10 +218,11 @@ const router = new Router({
         },
         //转专业申请记录
         {
-          path: '/seacherTeacherHoliday',
+          path: '/SearchMajor',
           name: '转专业申请记录',
           show: 'Group_Dean',//院长
-          component: SeacherTeacherHoliday
+          component: Result
+
         },
         //项目立项申请记录
         {

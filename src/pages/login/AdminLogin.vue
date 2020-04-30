@@ -1,7 +1,9 @@
 <template>
   <div class="backgroud">
-    <div style="position:relative;left:60%;top:160px; width:25%;height:50%" >
-      <el-form label-position="right" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"  class="demo-ruleForm" >
+    <div class="bg" style="position:relative;left:60%;top:160px; width:25%;height:50%" >
+      <el-form  :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
+                style="position:relative;left:-15px;top:30px; width:100%;height:100%"
+                class="demo-ruleForm" >
         <el-form-item label="用户名" prop="username" >
           <!--<el-col :span="10">-->
           <el-input v-model="ruleForm.username" ></el-input>
@@ -133,5 +135,12 @@
     -o-background-size: cover;
     background-position: center 0;
     z-index: -1;
+  }
+  .bg {
+    /*background-color:#99FFCC*/ /*此处更换为所需的颜色代码*/
+    background: url("../../picture/b.jpg");
+  }
+  .demo-ruleForm{
+
   }
 </style>

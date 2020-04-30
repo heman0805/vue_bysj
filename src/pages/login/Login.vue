@@ -1,27 +1,10 @@
 <template>
 
-
-  <!--<el-form  label-position="left":inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-
-
-
-    <el-form-item label="用户名" prop="username">
-      <el-input v-model="ruleForm.username"></el-input>
-    </el-form-item>
-    <el-form-item label="密码" prop="password">
-      <el-input v-model="ruleForm.password"></el-input>
-    </el-form-item>
-
-    <el-form-item >
-      <el-button type="primary" @click="login('ruleForm')">登录</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
-    </el-form-item>
-  </el-form>-->
-
-
   <div class="backgroud">
-      <div style="position:relative;left:60%;top:160px; width:25%;height:50%" >
-  <el-form label-position="right" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"  class="demo-ruleForm" >
+      <div class="bg" style="position:relative;left:60%;top:160px; width:25%;height:50%" >
+  <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
+           style="position:relative;left:-15px;top:30px; width:100%;height:100%"
+           class="demo-ruleForm" >
     <el-form-item label="用户名" prop="username" >
       <!--<el-col :span="10">-->
       <el-input v-model="ruleForm.username" ></el-input>
@@ -40,8 +23,8 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="login('ruleForm')">提交</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
+      <el-button type="primary" @click="login('ruleForm')">登录</el-button>
+      <el-button @click="register()">注册</el-button>
     </el-form-item>
   </el-form>
   </div>
@@ -124,6 +107,9 @@
             }
           })
         },
+        register(){
+          this.$router.push('/register');
+        },
         isEmpty(value){
           return(
             value ===undefined || value ===null ||
@@ -137,7 +123,7 @@
 
 <style scoped>
   .backgroud{
-    background-image: url("../../picture/login.png");
+    background-image: url("../../picture/e.jpg");
     position:fixed;
     top: 0;
     left: 0;
@@ -153,5 +139,9 @@
     -o-background-size: cover;
     background-position: center 0;
     z-index: -1;
+  }
+  .bg {
+    /*background-color:#99FFCC*/ /*此处更换为所需的颜色代码*/
+    background: url("../../picture/b.jpg");
   }
 </style>
