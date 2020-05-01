@@ -1,9 +1,19 @@
 <template>
-  <div class="backgroud">
-    <div class="bg" style="position:relative;left:60%;top:160px; width:25%;height:50%" >
-      <el-form  :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
-                style="position:relative;left:-15px;top:30px; width:100%;height:100%"
-                class="demo-ruleForm" >
+
+  <div class="bgd" >
+    <div style="position:relative;left:0px;top:10px; width:50%;height:30%">
+      <img src="../../picture/i.png" style="margin-top:-3px;margin-left: 0px" />
+      <span id="xtmc" >高校信息化平台工作流管理子系统</span>
+    </div>
+    <div class="backgroud">
+
+      <img src="../../picture/h.png" style="position:relative; left:-17%;top:10px; width:65%;height:95%" />
+
+      <div class="bg" style="position:relative; left:67%;top:-93%; width:32%;height:95%" >
+        <span id="formTitle" >管理员登录</span>
+        <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
+                 style="position:relative;left:-15px;top:60px; width:100%;height:100%"
+                 class="demo-ruleForm" >
         <el-form-item label="用户名" prop="username" >
           <!--<el-col :span="10">-->
           <el-input v-model="ruleForm.username" ></el-input>
@@ -23,9 +33,10 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="login('ruleForm')">提交</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button @click="register()">注册</el-button>
         </el-form-item>
       </el-form>
+      </div>
     </div>
   </div>
 
@@ -45,11 +56,11 @@
         rules: {
           username: [
             { required: true, message: '用户名不能为空', trigger: 'blur' },
-            // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            { min: 6, message: '用户名长度应大于6', trigger: 'blur' }
           ],
           password: [
             { required: true, message: '密码不能为空', trigger: 'blur' },
-            // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            { min: 6, message: '密码长度应大于6', trigger: 'blur' }
           ],
           role:[
             { required: true, message: '角色不能为空' },
@@ -61,6 +72,9 @@
     },
 
     methods: {
+      register(){
+        this.$router.push('/register');
+      },
       login (LoginForm) {
         this.$refs[LoginForm].validate( valid =>{
           if(valid){
@@ -90,10 +104,12 @@
                 /*跳转*/
                 if(decoded){
                   //登录之后跳转到首页
-                  if(user.role=="管理")
+                  if(user.role=="管理"){
                     this.$router.push('/admin');
-                  else if(user.role=="办事处")
+                  }
+                  else {
                     this.$router.push('/office');
+                  }
                 }else{
                   window.location.reload()
                 }
@@ -117,7 +133,50 @@
   }
 </script>
 
+
 <style scoped>
+  .bgd{
+    background:#fafafa;
+    position:fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+  }
+  #xtmc{
+    font-size: 25px;
+  }
+  #formTitle{
+    color:black;
+    position:relative;
+    top: 30px;
+  }
+  .backgroud{
+    border:solid 3px;
+    border-color:#eaebf2 ;
+    background:#f7f8f8;
+    position:fixed;
+    top: 20%;
+    left: 8%;
+    width:84%;
+    height:75%;
+
+  }
+  .header{
+    background-image: url("../../picture/i.png");
+    position:fixed;
+    top: 15px;
+    left: 15px;
+    width:15%;
+    height:8%;
+  }
+  .bg {
+    background-color:#fcfcfc /*此处更换为所需的颜色代码*/
+
+  }
+</style>
+
+<!--<style scoped>
   .backgroud{
     background-image: url("../../picture/login.png");
     position:fixed;
@@ -138,9 +197,9 @@
   }
   .bg {
     /*background-color:#99FFCC*/ /*此处更换为所需的颜色代码*/
-    background: url("../../picture/b.jpg");
+
   }
   .demo-ruleForm{
 
   }
-</style>
+</style>-->

@@ -6,10 +6,17 @@
     <el-container>
       <el-header>
         <div class="backgroud">
-          <div class="logo" style = "position:absolute;left:20px;top:14px">高 校 信 息 化 平 台 工 作 流 管 理 子 系 统</div>
+          <!--<div class="logo" style = "position:absolute;left:20px;top:14px">高 校 信 息 化 平 台 工 作 流 管 理 子 系 统</div>-->
+
+          <div style="position:fixed;left:-30px;top:10px; width:50%;height:30%">
+            <img src="../picture/i.png" style="margin-top:-3px;margin-left: 0px" />
+            <span id="xtmc" >高校信息化平台工作流管理子系统</span>
+          </div>
+
           <div style = "position:absolute;right:20px;" >
             <p>
-              <span class="studentSpan" >姓名：{{name}} ，学院：{{college}} ，办事处：{{position}}<a >   个人中心</a>
+              <span class="studentSpan" >姓名：{{name}} ，学院：{{college}} ，办事处：{{position}}
+
               </span>
             </p>
           </div>
@@ -59,29 +66,44 @@
   }
 
   .backgroud{
-    background-image: url("../picture/header.png");
+    background-image: url("../picture/v.jpg");
     position:fixed;
     top: 0;
     left: 0;
     width:100%;
-    height:65px;
+    height:100%;
     min-width: 1000px;
+    z-index:-10;
+    zoom: 1;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-position: center 0;
+    z-index: -1;
   }
   .logo{
     color:black;
     size: 20px;
   }
   .studentSpan{
-    color:#FFf;
+    color:black;
   }
   .aside{
-    background-color: #F0F0F0 ;
+    background-color: #e5e5e5 ;
   }
   .aside-submenu{
-    background-color: #E8E8E8;
+    background-color: #e5e5e5;
   }
   .aside-item{
-    background-color: #F0F0F0 ;
+    background-color: #f9f9f9 ;
+  }
+  #xtmc{
+    font-size: 25px;
+    position:relative;
+    top: -10px;
+    left: 5px;
   }
 </style>
 

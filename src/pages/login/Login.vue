@@ -1,35 +1,45 @@
 <template>
 
+  <div class="bgd" >
+    <div style="position:relative;left:0px;top:0px; width:58%;height:30%">
+      <img src="../../picture/q.png" style="margin-top:0px;margin-left: 0px" />
+      <span id="xtmc" >高校信息化平台工作流管理子系统</span>
+    </div>
   <div class="backgroud">
-      <div class="bg" style="position:relative;left:60%;top:160px; width:25%;height:50%" >
-  <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
-           style="position:relative;left:-15px;top:30px; width:100%;height:100%"
+
+    <img src="../../picture/r.png" style="position:relative; left:-17%;top:13px; width:60%;height:95%" />
+
+      <div class="bg" style="position:relative; left:67%;top:-80%; width:24%;height:67%" >
+        <span id="formTitle" >用户登录</span>
+
+        <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
+           style="position:relative;left:-15px;top:40px; width:100%;height:100%"
            class="demo-ruleForm" >
-    <el-form-item label="用户名" prop="username" >
-      <!--<el-col :span="10">-->
-      <el-input v-model="ruleForm.username" ></el-input>
-      <!--</el-col>-->
-    </el-form-item>
-    <el-form-item label="密码" prop="password" >
-     <!-- <el-col :span="10">-->
-      <el-input type="password" v-model="ruleForm.password"></el-input>
-      <!--</el-col>-->
-    </el-form-item>
-    <el-form-item label="角色">
-      <el-radio-group v-model="ruleForm.role">
+            <el-form-item label="用户名" prop="username" >
+              <!--<el-col :span="10">-->
+              <el-input v-model="ruleForm.username" ></el-input>
+              <!--</el-col>-->
+            </el-form-item>
+            <el-form-item label="密码" prop="password" >
+             <!-- <el-col :span="10">-->
+              <el-input type="password" v-model="ruleForm.password"></el-input>
+              <!--</el-col>-->
+            </el-form-item>
+            <el-form-item label="角色">
+            <el-radio-group v-model="ruleForm.role">
 
-        <el-radio label="学生"></el-radio>
-        <el-radio label="教师"></el-radio>
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="login('ruleForm')">登录</el-button>
-      <el-button @click="register()">注册</el-button>
-    </el-form-item>
-  </el-form>
+              <el-radio label="学生"></el-radio>
+              <el-radio label="教师"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="login('ruleForm')">登录</el-button>
+            <el-button @click="register()">注册</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
   </div>
   </div>
-
 </template>
 
 <script>
@@ -46,11 +56,11 @@
           rules: {
             username: [
               { required: true, message: '用户名不能为空', trigger: 'blur' },
-              // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              { min: 6, message: '用户名长度应大于6', trigger: 'blur' }
             ],
             password: [
               { required: true, message: '密码不能为空', trigger: 'blur' },
-              // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              { min: 6, message: '密码长度应大于6', trigger: 'blur' }
             ],
             role:[
               { required: true, message: '角色不能为空' },
@@ -91,10 +101,16 @@
                   /*跳转*/
                   if(decoded){
                     //登录之后跳转到首页
-                    if(user.role=="教师")
-                      this.$router.push('/teacher/holiday');
-                    else
+                    if(user.role=="教师"){
+                      console.log('教师登录成功，跳转')
+                      this.$router.push('/teacher');
+                    }
+
+                    else{
+                      console.log('学生登录成功，跳转')
                       this.$router.push('/student/holiday');
+                    }
+
                   }else{
                     window.location.reload()
                   }
@@ -122,26 +138,40 @@
 </script>
 
 <style scoped>
-  .backgroud{
-    background-image: url("../../picture/e.jpg");
+  .bgd{
+
+    background:#fafafa;
     position:fixed;
     top: 0;
     left: 0;
     width:100%;
     height:100%;
-    min-width: 1000px;
-    z-index:-10;
-    zoom: 1;
-    background-color: #fff;
-    background-repeat: no-repeat;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -o-background-size: cover;
-    background-position: center 0;
-    z-index: -1;
   }
+  #xtmc{
+    font-size: 25px;
+    position:relative;
+    top: -40px;
+    left: 0px;
+  }
+  #formTitle{
+    color:black;
+    position:relative;
+    top: 20px;
+  }
+  .backgroud{
+    border:solid 2px;
+    border-color:#eaebf2 ;
+    background:#f7f8f8;
+    position:fixed;
+    top: 20%;
+    left: 0px;
+    width:100%;
+    height:80%;
+
+  }
+
   .bg {
-    /*background-color:#99FFCC*/ /*此处更换为所需的颜色代码*/
-    background: url("../../picture/b.jpg");
+    background-color:#ecebeb
+
   }
 </style>

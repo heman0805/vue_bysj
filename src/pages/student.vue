@@ -6,20 +6,28 @@
     <el-container>
     <el-header>
       <div class="backgroud">
-        <div class="logo" style = "position:absolute;left:20px;top:14px">高 校 信 息 化 平 台 工 作 流 管 理 子 系 统</div>
+        <!--<div class="logo" style = "position:absolute;left:20px;top:14px">高 校 信 息 化 平 台 工 作 流 管 理 子 系 统</div>-->
+
+        <div style="position:fixed;left:-30px;top:10px; width:50%;height:30%">
+          <img src="../picture/i.png" style="margin-top:-3px;margin-left: 0px" />
+          <span id="xtmc" >高校信息化平台工作流管理子系统</span>
+        </div>
+
           <div style = "position:absolute;right:20px;" >
             <p>
               <span class="studentSpan" >姓名：{{name}} ， 角色：{{role}} ， 班级：{{class_}} ， 专业：{{profession}}
-              <a >   个人中心</a>
+
               </span>
             </p>
 
           </div>
+        <div>
+        </div>
 
       </div>
     </el-header>
 
-    <el-container  style=" height:100%; border: 1px solid #eee" >
+    <el-container  style=" height:100%; border: 2px solid #eee" >
       <el-aside class ="aside" width="200px" style="height: 100%" ><!-- style="background-color: #4F9E66"-->
         <el-menu class ="aside" router :default-openeds="['1']">
           <el-submenu class ="aside-submenu" v-for="(item,index) in $router.options.routes" :index="index+''" v-if="item.show==role">
@@ -51,7 +59,7 @@
     height: 100%;
   }
 
-  .backgroud{
+  /*.backgroud{
     background-image: url("../picture/header.png");
     position:fixed;
     top: 0;
@@ -59,22 +67,42 @@
     width:100%;
     height:65px;
     min-width: 1000px;
-  }
-  .logo{
-    color:black;
-    size: 20px;
+  }*/
+  .backgroud{
+    background-image: url("../picture/f.jpg");
+    position:fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    min-width: 1000px;
+    z-index:-10;
+    zoom: 1;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-position: center 0;
+    z-index: -1;
   }
   .studentSpan{
-    color:#FFf;
+    color:black;
   }
   .aside{
-    background-color: #F0F0F0 ;
+    background-color: #f5ebc8 ;
   }
   .aside-submenu{
-    background-color: #E8E8E8;
+    background-color: #f5ebc8;
   }
   .aside-item{
-    background-color: #F0F0F0 ;
+    background-color: #f9f9f9 ;
+  }
+  #xtmc{
+    font-size: 25px;
+    position:relative;
+    top: -10px;
+    left: 5px;
   }
 </style>
 
@@ -86,6 +114,12 @@
       this.class_ = user.class_
       this.profession = user.profession
       this.name = user.name
+    },
+    methods:{
+      submit(){
+        console.log("提交按钮")
+        this.$router.push('/login');
+      }
     },
     data() {
       const item = {

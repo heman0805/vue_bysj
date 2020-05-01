@@ -28,6 +28,9 @@ import ProjectTask from '../pages/project/projectTask'
 import SearchProject from '../pages/project/SearchProject'
 
 import Register from  '../pages/login/Register'
+import Password from '../pages/user/password'
+import Password_2 from '../pages/user/password_2'
+
 import NotFound from '../pages/404'
 import store from '../store'
 Vue.use(Router)
@@ -56,7 +59,19 @@ const router = new Router({
       show:false,
       component: Login
     }
-    ,
+    /*修改密码*/
+    ,{
+      path: '/password',
+      name: '个人中心',
+      show:false,
+      component: Password
+    },
+    {
+      path: '/password_2',
+      name: '个人中心',
+      show:false,
+      component: Password_2
+    },
     /**
      * 学生页内容
      */
@@ -120,6 +135,19 @@ const router = new Router({
         }
       ]
     },
+    {
+      path: '/password',
+      name: '个人中心',
+      show:'学生',
+      component: Student,
+      children:[
+        {
+          path: '/password',
+          name: '修改密码',
+          component : Password
+        }
+      ]
+    },
     /**
      * 教师页内容
      */
@@ -127,7 +155,6 @@ const router = new Router({
       path: '/teacher',
       name: '请假申请',
       show:'教师',
-
       component: Teacher,
       redirect:"/teacher/holiday",
       children: [
@@ -168,15 +195,29 @@ const router = new Router({
       show: '教师',
       component: Teacher,
       children: []
-    }
+    },
+    {
+      path: '/password',
+      name: '个人中心',
+      show:'教师',
+      component: Teacher,
+      children:[
+        {
+          path: '/password',
+          name: '修改密码',
+          component : Password
+        }
+      ]
+    },
     /**
      * 审批人员页面
      */
-    ,{
+    {
       path: '/admin',
       name: '查看',
       show: '管理',
       component: Admin,
+      redirect:'/seacherStudentHoliday',
       children: [
         //学生请假记录
         {
@@ -303,6 +344,45 @@ const router = new Router({
 
       ]
     },
+
+    {
+      path: '/password',
+      name: '个人中心',
+      show:'管理',
+      component: Admin,
+      children:[
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_ViceDean',//副院长
+          component : Password
+        },
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_Instructor',//辅导员
+          component : Password
+        },
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_DepartmentDirector',//系主任
+          component : Password
+        },
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_Secretory',//书记
+          component : Password
+        },
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_Dean',//院长
+          component : Password
+        },
+      ]
+    },
     /**
      * 办事处界面
      */
@@ -311,7 +391,7 @@ const router = new Router({
       name: '查看',
       show: '办事处',
       component: Office,
-      redirect: '/major/seacherTask',
+      redirect: '/major/result',
       children: [
 
         {
@@ -383,17 +463,40 @@ const router = new Router({
         }
       ]
     },
+    {
+      path: '/password',
+      name: '个人中心',
+      show:'办事处',
+      component: Office,
+      children:[
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_AcademicAffairs',//学院教务处
+          component : Password
+        },
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_AdministrationOffice',//学校教务处
+          component : Password
+        },
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_SciAndTech',//科技处
+          component : Password
+        },
+        {
+          path: '/password',
+          name: '修改密码',
+          show:'Group_Finance',//财务处
+          component : Password
+        },
+      ]
+    },
 
-
-
-
-
-
-
-
-
-
-  ]
+    ]
 })
 
 /*路由守卫   根据登录获得token*/

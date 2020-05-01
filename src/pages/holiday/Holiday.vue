@@ -51,12 +51,6 @@
 </template>
 <style>
 @import "../../style/el-main-demo.css";
-  /*.el-main-demo{
-    padding-top: 52px;
-  }*/
-  /*.el-main-form{
-    padding-top: 52px;
-  }*/
 </style>
 <script>
   import {formatDate} from '../../js/date.js';
@@ -64,7 +58,6 @@
     data() {
       return {
         form: {
-         // days: '',
           vacationType: '',
           beginTime: '',
           endTime: '',
@@ -72,18 +65,11 @@
         }
         ,
         rules: {
-         /* days: [
-            {required: true, message: '请假天数不能为空', trigger: 'blur'},
-            // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],*/
+
           vacationType: [
             {required: true, message: '请假类型不能为空', trigger: 'blur'},
             // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
-         /* time: [
-            {required: true, message: '请假时间不能为空', trigger: 'blur'},
-            // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],*/
           reason: [
             {required: true, message: '请假理由不能为空', trigger: 'blur'},
             // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
@@ -100,8 +86,6 @@
 
         this.form.beginTime = formatDate(beginTime, 'yyyy-MM-dd hh:mm:ss')
         this.form.endTime = formatDate(endTime, 'yyyy-MM-dd hh:mm:ss')
-        //console.log("转换后开始时间："+this.form.beginTime);
-        //console.log("转换后结束时间："+this.form.endTime);
 
         data.form = this.form
         data.user = JSON.parse(sessionStorage.getItem("user"))
