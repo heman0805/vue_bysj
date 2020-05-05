@@ -7,35 +7,35 @@
     </div>
     <div class="backgroud">
 
-      <img src="../../picture/h.png" style="position:relative; left:-17%;top:10px; width:65%;height:95%" />
+      <img src="../../picture/h.png" style="position:relative; left:-22%;top:10px; width:55%;height:95%" />
 
-      <div class="bg" style="position:relative; left:67%;top:-93%; width:32%;height:95%" >
-        <span id="formTitle" >管理员登录</span>
+      <div class="bg" style="position:relative; left:56%;top:-93%; width:43%;height:95%">
+        <div style="position:relative;top:5px;left: -160px">
+          <img src="../../picture/user.png"/>
+          <div class="pp" style="position:relative;top:-42px;left: 90px">管理员登录</div>
+        </div>
+        <div class="sub"><p>还没有账号？<a href="/register"><span class="blue">立即注册</span></a></p></div>
+        <div class="sub-line"></div>
+        <div class="bg">
         <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
-                 style="position:relative;left:-15px;top:60px; width:100%;height:100%"
+                 style="position:relative;left:35px;top:45px; width:100%;height:100%"
                  class="demo-ruleForm" >
-        <el-form-item label="用户名" prop="username" >
-          <!--<el-col :span="10">-->
-          <el-input v-model="ruleForm.username" ></el-input>
-          <!--</el-col>-->
-        </el-form-item>
-        <el-form-item label="密码" prop="password" >
-          <!-- <el-col :span="10">-->
-          <el-input type="password" v-model="ruleForm.password"></el-input>
-          <!--</el-col>-->
-        </el-form-item>
-        <el-form-item label="角色">
-          <el-radio-group v-model="ruleForm.group">
+          <el-form-item label="用户名：" prop="username" >
+            <el-col :span="15">
+            <el-input v-model="ruleForm.username" ></el-input>
+           </el-col>
+          </el-form-item>
+          <el-form-item label="密码：" prop="password" >
+           <el-col :span="15">
+            <el-input type="password" v-model="ruleForm.password"></el-input>
+            </el-col>
+          </el-form-item>
 
-            <el-radio label="管理人员"></el-radio>
-            <el-radio label="办事处"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="login('ruleForm')">提交</el-button>
-          <el-button @click="register()">注册</el-button>
-        </el-form-item>
-      </el-form>
+          <el-form-item>
+            <el-button class="xiayibu" type="primary" @click="login('ruleForm')">登录</el-button>
+          </el-form-item>
+        </el-form>
+        </div>
       </div>
     </div>
   </div>
@@ -52,6 +52,7 @@
         ruleForm: {
           username: '',
           password: '',
+          role:''
         },
         rules: {
           username: [
@@ -62,12 +63,7 @@
             { required: true, message: '密码不能为空', trigger: 'blur' },
             { min: 6, message: '密码长度应大于6', trigger: 'blur' }
           ],
-          role:[
-            { required: true, message: '角色不能为空' },
-            // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
         },
-
       };
     },
 
@@ -78,6 +74,7 @@
       login (LoginForm) {
         this.$refs[LoginForm].validate( valid =>{
           if(valid){
+            console.log(this.ruleForm)
             this.$axios.post('http://localhost:8181/adminLogin',this.ruleForm).then( res =>{
               //登陆成功  使用token
               //console.log(res)
@@ -116,8 +113,6 @@
               }
             }).catch(error =>{
               this.loading = false
-              // this.loginBtn = "登录"
-              // this.$message.error("账号或密码错误")
             })
           }
         })
@@ -135,6 +130,7 @@
 
 
 <style scoped>
+
   .bgd{
     background:#fafafa;
     position:fixed;
@@ -145,11 +141,6 @@
   }
   #xtmc{
     font-size: 25px;
-  }
-  #formTitle{
-    color:black;
-    position:relative;
-    top: 30px;
   }
   .backgroud{
     border:solid 3px;
@@ -162,44 +153,15 @@
     height:75%;
 
   }
-  .header{
-    background-image: url("../../picture/i.png");
-    position:fixed;
-    top: 15px;
-    left: 15px;
-    width:15%;
-    height:8%;
-  }
   .bg {
     background-color:#fcfcfc /*此处更换为所需的颜色代码*/
 
   }
+  .bg .pp{  font-size:18px; color:#333; padding-left:50px;letter-spacing:9px;}
+  .blue{ color:#31acfb}
+  .sub{ position:relative;top: -30px; font-size:14px; color:#666;}
+  .sub p{ float:right}
+  .sub-line{ position:relative;top: -35px;width: 90%;float:right; font-size:14px; color:#666;border-bottom: 1px solid #cccccc;}
+  .xiayibu{ position:relative;left:-122px; width:230px; height:40px; text-align:center; color:#fff; background:#30adfa; font-size:14px; border-radius:5px; margin-left:110px; margin-top:20px; cursor:pointer}
+
 </style>
-
-<!--<style scoped>
-  .backgroud{
-    background-image: url("../../picture/login.png");
-    position:fixed;
-    top: 0;
-    left: 0;
-    width:100%;
-    height:100%;
-    min-width: 1000px;
-    z-index:-10;
-    zoom: 1;
-    background-color: #fff;
-    background-repeat: no-repeat;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -o-background-size: cover;
-    background-position: center 0;
-    z-index: -1;
-  }
-  .bg {
-    /*background-color:#99FFCC*/ /*此处更换为所需的颜色代码*/
-
-  }
-  .demo-ruleForm{
-
-  }
-</style>-->

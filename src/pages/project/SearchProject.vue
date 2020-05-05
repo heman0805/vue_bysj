@@ -31,6 +31,10 @@
         border :header-cell-style="{background:'#D5ECF8',color:'#606266'}"
         style="width: 100%">
         <el-table-column
+          label="流程实例ID"
+          prop="processInstanceId">
+        </el-table-column>
+        <el-table-column
           label="姓名"
           prop="name">
         </el-table-column>
@@ -137,7 +141,6 @@
       this.tid = tid
       this.college = college
       this.profession = profession
-        //查找该用户所在专业所有班级
         this.$axios.get('http://localhost:8181/user/project/result/' + tid+"/"+college+"/"+profession+"/5/0/"+this.pageSize).then(function (resp) {
           console.log(resp)
          _this.tableData = resp.data.data
@@ -154,6 +157,7 @@
          result:''
         },
         tableData: [{
+          processInstanceId:'',
           name:'',
           role:'',
           projectName:'',

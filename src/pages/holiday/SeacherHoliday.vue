@@ -126,6 +126,7 @@
       },
       selectByProfession(tid,pageNum,profession){
         var _this = this
+
         this.$axios.get('http://localhost:8181/user/holiday/searchHoliday/'+tid+"/profession/"+profession+"/"+pageNum+"/"+_this.pageSize).then(function (resp){
           for(let i = 0;i<resp.data.data.length;i++){
             let begintime = new Date(resp.data.data[i].beginTime)

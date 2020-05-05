@@ -57,7 +57,7 @@
   }
 
   .backgroud{
-    background-image: url("../picture/f.jpg");
+    background-image: url("../picture/v.jpg");
     position:fixed;
     top: 0;
     left: 0;
@@ -78,10 +78,10 @@
     color:black;
   }
   .aside{
-    background-color: #f5ebc8 ;
+    background-color: #e5e5e5 ;
   }
   .aside-submenu{
-    background-color: #f5ebc8;
+    background-color: #e5e5e5;
   }
   .aside-item{
     background-color: #f9f9f9 ;

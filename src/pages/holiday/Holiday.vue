@@ -79,6 +79,8 @@
     },
     methods: {
       submit(form) {
+        this.$refs[form].validate( valid =>{
+          if(valid){
         var _this = this
         var data ={};
         let beginTime = new Date(this.form.beginTime);
@@ -92,11 +94,18 @@
         //console.log("请假用户信息："+data.user)
         this.$axios.post('http://localhost:8181/user/holiday/insert',data).then(function (resp) {
           //console.log(this.map.get("form"))
-          console.log("请假单填写成功")
-          _this.$message('请假单填写成功')
+          console.log(resp.data)
+          if(resp.data.msg=='请假申请成功')
+            _this.$message(resp.data.msg)
+          else
+            _this.$message.error(resp.data.msg)
           _this.$refs[form].resetFields()
+          _this.form.beginTime=''
+          _this.form.endTime=''
         })
 
+      }
+    })
       }
     }
   }

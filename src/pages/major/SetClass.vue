@@ -21,6 +21,17 @@
           </el-col>
         </el-form-item>
 
+        <el-form-item label="年级" prop="grade">
+          <el-col :span="20">
+            <el-select v-model="form.grade" @change="gradeChange('form')" placeholder="请选择年级">
+              <el-option label="大一" value="1"/>
+              <el-option label="大二" value="2"/>
+              <el-option label="大三" value="3"/>
+              <el-option label="大四" value="4"/>
+            </el-select>
+          </el-col>
+        </el-form-item>
+
         <el-form-item>
           <el-button  :plain="true" type="primary" round @click="submit('form')">提交分班结果</el-button>
         </el-form-item>
@@ -97,19 +108,46 @@
       change(form){
         var _this = this
         var profession = this.form.profession
+        var grade = this.form.grade
+
+        if(this.form.grade==null||this.form.grade=="")
+          grade=10
+
         //查找该专业所有班级
-        this.$axios.get('http://localhost:8181/user/holiday/classes/' + profession).then(function (resp) {
+        this.$axios.get('http://localhost:8181/searchclassesByProfessionAndGrade/' + profession+"/"+grade).then(function (resp) {
           _this.classes = resp.data
         })
-        this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession+"/profession/0/10").then(function (resp) {
+        this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession+"/profession/"+grade+"/0/"+this.pageSize).then(function (resp) {
           _this.tableData = resp.data.data
+          _this.pageSize = resp.data.size
+          _this.total = resp.data.totalElement
         })
+      },
+      gradeChange(form){
+        console.log(this.form.grade)
+        var _this = this
+        var profession = this.form.profession
+        var grade = this.form.grade
+        if(this.form.grade==null||this.form.grade=="")
+          grade=10
+        console.log("年级：",grade)
+        if(profession!=null&&profession!="") {
+          //查找该专业所有班级
+          this.$axios.get('http://localhost:8181/searchclassesByProfessionAndGrade/' + profession+"/"+grade).then(function (resp) {
+            _this.classes = resp.data
+          })
+          this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession + "/profession/" + grade + "/0/"+this.pageSize).then(function (resp) {
+            _this.tableData = resp.data.data
+            _this.pageSize = resp.data.size
+            _this.total = resp.data.totalElement
+          })
+        }
       },
       submit(form){
         var _this = this
         console.log(this.tableData)
         this.$axios.post('http://localhost:8181/user/major/setClass',this.tableData).then(function (resp) {
-          _this.$message(resp)
+          _this.$message(resp.data)
           window.location.reload()
         })
       },
@@ -117,16 +155,22 @@
         var _this = this
         const user = JSON.parse(sessionStorage.getItem("user"))
         var college = user.college
-        if(this.form.profession!=null){
+        var grade = this.form.grade
+
+        if(this.form.grade==null||this.form.grade=="")
+          grade=10
+
+        console.log("年级：",grade)
+        if(this.form.profession!=null&&this.form.profession!=""){
           var profession = this.form.profession
-          this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession+"/profession/"+currentPage+"/"+this.pageSize).then(function (resp) {
+          this.$axios.get('http://localhost:8181/user/major/getByProfession/' + profession+"/profession/"+grade+"/"+currentPage+"/"+this.pageSize).then(function (resp) {
             _this.tableData = resp.data.data
             _this.pageSize = resp.data.size
             _this.total = resp.data.totalElement
           })
         }
         else{
-          this.$axios.get('http://localhost:8181/user/major/getByProfession/' + college+"/college/"+currentPage+"/"+this.pageSize).then(function (resp) {
+          this.$axios.get('http://localhost:8181/user/major/getByProfession/' + college+"/college/"+grade+"/"+currentPage+"/"+this.pageSize).then(function (resp) {
             _this.tableData = resp.data.data
             _this.pageSize = resp.data.size
             _this.total = resp.data.totalElement
@@ -142,12 +186,10 @@
       const user = JSON.parse(sessionStorage.getItem("user"))
       var college = user.college
       var profession
-
-      this.$axios.get('http://localhost:8181/user/holiday/profession/'+college).then(function (resp) {
+      this.$axios.get('http://localhost:8181/searchProfessionesByCollege/'+college).then(function (resp) {
         _this.profession = resp.data
-        profession = resp.data[0]
       })
-      this.$axios.get('http://localhost:8181/user/major/getByProfession/' + college+"/college/0/10").then(function (resp) {
+      this.$axios.get('http://localhost:8181/user/major/getByProfession/' + college+"/college/10/0/"+_this.pageSize).then(function (resp) {
         for (let i=0;i<resp.data.data.length;i++){
           _this.index = i
         }
@@ -160,10 +202,11 @@
     },
     data() {
       return {
-        pageSize:10,
+        pageSize:4,
         total:8,
         form: {
-          class_:''
+          class_:'',
+          grade:''
         },
         classes:[
           ''

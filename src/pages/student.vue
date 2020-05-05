@@ -31,7 +31,7 @@
       <el-aside class ="aside" width="200px" style="height: 100%" ><!-- style="background-color: #4F9E66"-->
         <el-menu class ="aside" router :default-openeds="['1']">
           <el-submenu class ="aside-submenu" v-for="(item,index) in $router.options.routes" :index="index+''" v-if="item.show==role">
-            <template slot="title"><i class="el-icon-menu"></i>{{item.name}}</template>
+            <template slot="title"><i class="el-icon-s-cooperation"></i>{{item.name}}</template>
             <el-menu-item class ="aside-item" v-for="(item2,index2) in item.children":index="item2.path"
                           :class="$route.path==item2.path?'is-active':''">{{item2.name}}</el-menu-item>
           </el-submenu>
@@ -46,10 +46,6 @@
 </template>
 
 <style>
-  /*
-	找到html标签、body标签，和挂载的标签
-	都给他们统一设置样式
-*/
   html,body,#app,.el-container{
     /*设置内部填充为0，几个布局元素之间没有间距*/
     padding: 0px;
@@ -58,18 +54,8 @@
     /*统一设置高度为100%*/
     height: 100%;
   }
-
-  /*.backgroud{
-    background-image: url("../picture/header.png");
-    position:fixed;
-    top: 0;
-    left: 0;
-    width:100%;
-    height:65px;
-    min-width: 1000px;
-  }*/
   .backgroud{
-    background-image: url("../picture/f.jpg");
+    background-image: url("../picture/v.jpg");
     position:fixed;
     top: 0;
     left: 0;
@@ -90,10 +76,10 @@
     color:black;
   }
   .aside{
-    background-color: #f5ebc8 ;
+    background-color: #e5e5e5 ;
   }
   .aside-submenu{
-    background-color: #f5ebc8;
+    background-color: #e5e5e5;
   }
   .aside-item{
     background-color: #f9f9f9 ;

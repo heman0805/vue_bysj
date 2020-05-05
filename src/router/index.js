@@ -26,10 +26,14 @@ import SearchMajor from '../pages/major/SeacherMajor'
 import Project from '../pages/project/Project'
 import ProjectTask from '../pages/project/projectTask'
 import SearchProject from '../pages/project/SearchProject'
+import RunProject from '../pages/project/runProject'
+import ProjectHistory from '../pages/project/projectHistory'
 
 import Register from  '../pages/login/Register'
 import Password from '../pages/user/password'
 import Password_2 from '../pages/user/password_2'
+import UserStudent from '../pages/user/userStudent'
+import UserTeacher from '../pages/user/userTeacher'
 
 import NotFound from '../pages/404'
 import store from '../store'
@@ -132,6 +136,16 @@ const router = new Router({
           path: '/student/project',
           name: '立项申请',
           component : Project
+        },
+        {
+          path: '/student/runProject',
+          name: '申请进度',
+          component : RunProject
+        },
+        {
+          path: '/student/projectHistory',
+          name: '申请历史',
+          component : ProjectHistory
         }
       ]
     },
@@ -141,6 +155,11 @@ const router = new Router({
       show:'学生',
       component: Student,
       children:[
+        {
+          path: '/student/user',
+          name: '个人信息',
+          component : UserStudent
+        },
         {
           path: '/password',
           name: '修改密码',
@@ -186,22 +205,37 @@ const router = new Router({
           path: '/teacher/project',
           name: '立项申请',
           component : Project
+        },
+        {
+          path: '/teacher/runProject',
+          name: '申请进度',
+          component : RunProject
+        },
+        {
+          path: '/student/projectHistory',
+          name: '申请历史',
+          component : ProjectHistory
         }
       ]
     },
-    {
+   /* {
       path: '/tasks',
       name: '待办任务',
       show: '教师',
       component: Teacher,
       children: []
-    },
+    },*/
     {
       path: '/password',
       name: '个人中心',
       show:'教师',
       component: Teacher,
       children:[
+        {
+          path: '/teacher/user',
+          name: '个人信息',
+          component : UserTeacher
+        },
         {
           path: '/password',
           name: '修改密码',
@@ -352,6 +386,36 @@ const router = new Router({
       component: Admin,
       children:[
         {
+          path: '/teacher/user1',
+          name: '个人信息',
+          show:'Group_ViceDean',//副院长
+          component : UserTeacher
+        },
+        {
+          path: '/teacher/user2',
+          name: '个人信息',
+          show:'Group_Instructor',//辅导员
+          component : UserTeacher
+        },
+        {
+          path: '/teacher/user3',
+          name: '个人信息',
+          show:'Group_DepartmentDirector',//系主任
+          component : UserTeacher
+        },
+        {
+          path: '/teacher/user4',
+          name: '个人信息',
+          show:'Group_Secretory',//书记
+          component : UserTeacher
+        },
+        {
+          path: '/teacher/user5',
+          name: '个人信息',
+          show:'Group_Dean',//院长
+          component : UserTeacher
+        },
+        {
           path: '/password',
           name: '修改密码',
           show:'Group_ViceDean',//副院长
@@ -469,6 +533,30 @@ const router = new Router({
       show:'办事处',
       component: Office,
       children:[
+        {
+          path: '/teacher/user1',
+          name: '个人信息',
+          show:'Group_AcademicAffairs',//学院教务处
+          component : UserTeacher
+        },
+        {
+          path: '/teacher/user1',
+          name: '个人信息',
+          show:'Group_AdministrationOffice',//学校教务处
+          component : UserTeacher
+        },
+        {
+          path: '/teacher/user1',
+          name: '个人信息',
+          show:'Group_SciAndTech',//科技处
+          component : UserTeacher
+        },
+        {
+          path: '/teacher/user1',
+          name: '个人信息',
+          show:'Group_Finance',//财务处
+          component : UserTeacher
+        },
         {
           path: '/password',
           name: '修改密码',

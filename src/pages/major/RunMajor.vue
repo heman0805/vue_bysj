@@ -2,11 +2,12 @@
   <div class="el-main-demo">
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '' }">转专业申请</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="">申请结果</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a href="">申请进度</a></el-breadcrumb-item>
 
     </el-breadcrumb>
     <div class="el-main-table">
-      <el-progress v-if="tableData[tableData.length-1].checkResult=='拒绝'" :percentage="100" aria-valuetext="审核中"></el-progress>
+      <el-progress v-if="tableData.length==0" :percentage="0" aria-valuetext="无任务"></el-progress>
+      <el-progress v-else-if="tableData[tableData.length-1].checkResult=='拒绝'" :percentage="100" aria-valuetext="审核中"></el-progress>
       <el-progress v-else-if="tableData.length==1" :percentage="20" aria-valuetext="审核中"></el-progress>
       <el-progress v-else-if="tableData.length==2" :percentage="40" aria-valuetext="审核中"></el-progress>
       <el-progress v-else-if="tableData.length==3" :percentage="60" aria-valuetext="审核中"></el-progress>

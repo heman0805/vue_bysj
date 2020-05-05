@@ -7,23 +7,59 @@
     </div>
   <div class="backgroud">
 
-    <img src="../../picture/r.png" style="position:relative; left:-17%;top:13px; width:60%;height:95%" />
+    <img src="../../picture/r.png" style="position:relative; left:-23%;top:13px; width:60%;height:95%" />
 
-      <div class="bg" style="position:relative; left:67%;top:-80%; width:24%;height:67%" >
+
+    <div class="bg" style="position:relative; left:58%;top:-93%; width:32%;height:95%">
+      <div style="position:relative;top:5px;left: -160px">
+        <img src="../../picture/user.png"/>
+        <div class="pp" style="position:relative;top:-42px;left: 90px">用户登录</div>
+      </div>
+      <div class="sub"><p>还没有账号？<a href="/register"><span class="blue">立即注册</span></a></p></div>
+      <div class="sub-line"></div>
+      <div class="bg">
+        <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
+                 style="position:relative;left:35px;top:35px; width:100%;height:100%"
+                 class="demo-ruleForm" >
+          <el-form-item label="用户名：" prop="username" >
+            <el-col :span="15">
+              <el-input v-model="ruleForm.username" ></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="密码：" prop="password" >
+            <el-col :span="15">
+              <el-input type="password" v-model="ruleForm.password"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="角色：">
+            <el-radio-group v-model="ruleForm.role" style="position: relative; left: -90px">
+
+              <el-radio label="学生"></el-radio>
+              <el-radio label="教师"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item>
+            <el-button class="xiayibu" type="primary" @click="login('ruleForm')">登录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+
+      <!--<div class="bg" style="position:relative; left:67%;top:-80%; width:24%;height:67%" >
         <span id="formTitle" >用户登录</span>
 
         <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px"
            style="position:relative;left:-15px;top:40px; width:100%;height:100%"
            class="demo-ruleForm" >
             <el-form-item label="用户名" prop="username" >
-              <!--<el-col :span="10">-->
+              &lt;!&ndash;<el-col :span="10">&ndash;&gt;
               <el-input v-model="ruleForm.username" ></el-input>
-              <!--</el-col>-->
+              &lt;!&ndash;</el-col>&ndash;&gt;
             </el-form-item>
             <el-form-item label="密码" prop="password" >
-             <!-- <el-col :span="10">-->
+             &lt;!&ndash; <el-col :span="10">&ndash;&gt;
               <el-input type="password" v-model="ruleForm.password"></el-input>
-              <!--</el-col>-->
+              &lt;!&ndash;</el-col>&ndash;&gt;
             </el-form-item>
             <el-form-item label="角色">
             <el-radio-group v-model="ruleForm.role">
@@ -37,7 +73,7 @@
             <el-button @click="register()">注册</el-button>
           </el-form-item>
         </el-form>
-      </div>
+      </div>-->
   </div>
   </div>
 </template>
@@ -172,6 +208,12 @@
 
   .bg {
     background-color:#ecebeb
-
   }
+  .bg .pp{  font-size:18px; color:#333; padding-left:50px;letter-spacing:9px;}
+  .blue{ color:#31acfb}
+  .sub{ position:relative;top: -30px; font-size:14px; color:#666;}
+  .sub p{ float:right}
+  .sub-line{ position:relative;top: -35px;width: 90%;float:right; font-size:14px; color:#666;border-bottom: 1px solid #cccccc;}
+  .xiayibu{ position:relative;left:-122px; width:230px; height:40px; text-align:center; color:#fff; background:#30adfa; font-size:14px; border-radius:5px; margin-left:110px; margin-top:20px; cursor:pointer}
+
 </style>

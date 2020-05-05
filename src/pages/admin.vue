@@ -29,7 +29,7 @@
         <el-aside class ="aside" width="200px" style="height: 100%" ><!-- style="background-color: #4F9E66"-->
           <el-menu class ="aside" router :default-openeds="['1']">
             <el-submenu class ="aside-submenu" v-for="(item,index) in $router.options.routes" :index="index+''" v-if="item.show==role">
-              <template slot="title"><i class="el-icon-menu"></i>{{item.name}}</template>
+              <template slot="title"><i class="el-icon-s-cooperation"></i>{{item.name}}</template>
               <el-menu-item class ="aside-item" v-for="(item2,index2) in item.children":index="item2.path"
                             :class="$route.path==item2.path?'is-active':''" v-if="item2.show==group">{{item2.name}}</el-menu-item>
             </el-submenu>
