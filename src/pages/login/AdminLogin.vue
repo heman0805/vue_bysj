@@ -1,8 +1,8 @@
 <template>
 
   <div class="bgd" >
-    <div style="position:relative;left:0px;top:10px; width:50%;height:30%">
-      <img src="../../picture/i.png" style="margin-top:-3px;margin-left: 0px" />
+    <div style="position:relative;left:0px;top:10px; width:58%;height:30%">
+      <img src="../../picture/q.png" style="margin-top:-3px;margin-left: 0px" />
       <span id="xtmc" >高校信息化平台工作流管理子系统</span>
     </div>
     <div class="backgroud">
@@ -141,6 +141,9 @@
   }
   #xtmc{
     font-size: 25px;
+    position:relative;
+    top: -40px;
+    left: 0px;
   }
   .backgroud{
     border:solid 3px;

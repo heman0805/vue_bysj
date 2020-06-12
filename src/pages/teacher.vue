@@ -8,7 +8,7 @@
         <div class="backgroud">
 
           <div style="position:fixed;left:-30px;top:10px; width:50%;height:30%">
-            <img src="../picture/i.png" style="margin-top:-3px;margin-left: 0px" />
+            <img src="../picture/logo.png" style="margin-top:-3px;margin-left: 0px" />
             <span id="xtmc" >高校信息化平台工作流管理子系统</span>
           </div>
 

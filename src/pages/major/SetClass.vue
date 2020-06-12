@@ -202,7 +202,7 @@
     },
     data() {
       return {
-        pageSize:4,
+        pageSize:10,
         total:8,
         form: {
           class_:'',

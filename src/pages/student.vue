@@ -9,7 +9,7 @@
         <!--<div class="logo" style = "position:absolute;left:20px;top:14px">高 校 信 息 化 平 台 工 作 流 管 理 子 系 统</div>-->
 
         <div style="position:fixed;left:-30px;top:10px; width:50%;height:30%">
-          <img src="../picture/i.png" style="margin-top:-3px;margin-left: 0px" />
+          <img src="../picture/logo.png" style="margin-top:-3px;margin-left: 0px" />
           <span id="xtmc" >高校信息化平台工作流管理子系统</span>
         </div>
 
